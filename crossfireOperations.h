@@ -16,6 +16,8 @@
 #define REQ_DISTANCE 3
 #define PLAYER_MAX 6
 
+enum playerType {humanType, ogreType, wizardType, elfType};
+enum slotType {level_ground, city, hill};
 /*
  * Definition of boolean types
  * This avoids using <stdbool.h>
@@ -31,7 +33,8 @@ struct slot{
 	int row;
 	//column number
 	int column;
-
+	//Type of slot
+	int slot_type;
 	// adjacent left slot
 	struct slot *left;
 	// adjacent right slot

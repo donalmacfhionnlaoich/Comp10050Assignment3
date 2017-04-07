@@ -22,11 +22,11 @@ struct player_type {
 	int column;
 };
 
-struct slot_type {
+/*struct slot_type {
 	char type[20];
 	int numb;
 	int taken;
 	char occupant[20];
-};
+};*/
 
 #endif /* STRUCTS_H_ */

@@ -8,14 +8,15 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 #include "crossfireOperations.h"
 #include "structs.h"
 
 int main(){
 
 	setbuf(stdout,NULL);	//Fix error with eclipse on Windows.
-
-	int n, typeNum;
+	srand(time(NULL));
+	unsigned int n, typeNum;
 	printf("There can be 1-%d players in the game.\n", PLAYER_MAX);
 	printf("How many players are there: ");
 	scanf("%u", &n);		// Stores number of players in n
@@ -35,32 +36,33 @@ int main(){
 		printf("\nEnter Player %d's name: ", i+1);
 		scanf("%19s", player[i].name);	//Ensuring the maximum of characters of name is at most 19 so that there is one space for the null terminator.
 		printf("\n----------Enter Player %d's type---------\n", i+1);
-		printf("1 - Elf, 2 - Human, 3 - Ogre, 4 - Wizard:\n");
-		scanf("%d", &typeNum);		// User input for player type
-		while(typeNum < 1 || typeNum > 4){	// Loops while entered digit is not 1-4
+		printf("1 - Human, 2 - Ogre, 3 - Wizard, 4 - Elf:\n");
+		scanf("%u", &typeNum);		// User input for player type
+		while(typeNum < 1 || typeNum > 4)
+		{	// Loops while entered digit is not 1-4
 			puts("Sorry but you must enter a number between 1 & 4:\n");
-			scanf("%d", &typeNum);
+			scanf("%u", &typeNum);
 		}
 		player[i].lifepoints = 100.0;		// Sets everybody's LP's too 100.0 as stated
 											// Must be floating point for attack calculations
 		/* Switch that copies player's type and respective capabilities to each struct member */
-		switch(typeNum){
-			case 1:
-				strcpy(player[i].type, "Elf");
-				elf(&player[i]);		// Elf function (see playerTypes.c)
-				break;
-
-			case 2:
+		switch(typeNum - 1)
+		{
+			case humanType:
 				strcpy(player[i].type, "Human");
-				human(&player[i]);		// Human function (see playerTypes.c)
+				human(&player[i]);		// Elf function (see playerTypes.c)
 				break;
-			case 3:
+			case ogreType:
 				strcpy(player[i].type, "Ogre");
-				ogre(&player[i]);		// Ogre function (see playerTypes.c)
+				ogre(&player[i]);		// Human function (see playerTypes.c)
 				break;
-			case 4:
+			case wizardType:
 				strcpy(player[i].type, "Wizard");
-				wizard(&player[i]);		// Wizard function (see playerTypes.c)
+				wizard(&player[i]);		// Ogre function (see playerTypes.c)
+				break;
+			case elfType:
+				strcpy(player[i].type, "Elf");
+				elf(&player[i]);		// Wizard function (see playerTypes.c)
 				break;
 		}
 	}

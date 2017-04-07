@@ -10,7 +10,7 @@
 #include "crossfireOperations.h"
 
 //This function returns the board size provided as input by the user
-int getBoardSize(){
+int getBoardSize(){ //REMOVE THIS LATER
 	int boardSize;
 	printf("Please enter the required size of the board\n");
 	//asks the user to enter the desired board size
