@@ -12,6 +12,10 @@
 
 #endif /* CROSSFIREOPERATIONS_H_ */
 
+#define BOARD_SIZE 7
+#define REQ_DISTANCE 3
+#define PLAYER_MAX 6
+
 /*
  * Definition of boolean types
  * This avoids using <stdbool.h>
@@ -78,4 +82,18 @@ void createBoard(int boardSize, struct slot **upLeft, struct slot **upRight, str
  * 	column: the column in which the desired slot is located
  * 	initialSlot: the slot from which the slot search should start
  */
-void reachDesiredElement(int row, int column, struct slot * initialSlot);
+struct slot *  reachDesiredElement(int row, int column, struct slot * initialSlot);
+
+
+/*
+ * The recursive function that traverses the board to find the slots at a predefined
+ * distance from the current slot and place them in foundSlots.
+ * Parameters:
+ * 	reqDist: the required distance from the starting slot
+ * 	currDist: the distance of the current slot from the starting slot
+ * 	currSlot: a pointer to the current slot that is traversed
+ * 	foundSlots: the array of slots that are at a required distance from the starting slot
+ * 	count: pointer to an integer representing the number of slots that are found to be at a required distance from the starting slot
+ * 	explored: matrix indicating for each slot at row x and column y has been traversed (true) or not (false)
+ */
+void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[7][7]);
