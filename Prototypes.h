@@ -9,9 +9,9 @@
 #define PROTOTYPES_H_
 
 /* PLAYER TYPES SLOTS */
-void human(struct player_type *player);
-void ogre(struct player_type *player);
-void wizard(struct player_type *player);
-void elf(struct player_type *player);
+void human(struct player_type *player, struct slot **board);
+void ogre(struct player_type *player, struct slot **board);
+void wizard(struct player_type *player, struct slot **board);
+void elf(struct player_type *player, struct slot **board);
 
 #endif /* PROTOTYPES_H_ */

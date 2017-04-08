@@ -22,21 +22,23 @@
  * 	downLeft: pointer of pointer to slot at position (boardSsize -1, 0)
  * 	upLeft: pointer of pointer to slot at position (boardSize - 1, boardSize -1)
  */
-void createBoard(int boardSize, struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight){
+void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight){
 
 	//The board is represented as a pointer of pointer to slots
 	//This allocates in memory the space for the pointers to each row of the board
-	struct slot ** board = malloc(boardSize * sizeof(struct slot *));
+	//**struct slot ** board = calloc(boardSize * sizeof(struct slot *));
 
 
 	for(int i =0; i< boardSize; i++){
 		//This allocates in memory the space for the slots in each row of the board
-		board[i] = malloc(boardSize * sizeof(struct slot));
+		//**board[i] = calloc(boardSize * sizeof(struct slot));
 
 		//For each slot it sets up the row and column number
 		for(int j=0;j < boardSize; j++){
 			board[i][j].row = i;
 			board[i][j].column = j;
+			board[i][j].slot_type = rand() % 3;
+			//Occupied int and playersPresent array all set to 0 by default because of calloc
 		}
 	}
 

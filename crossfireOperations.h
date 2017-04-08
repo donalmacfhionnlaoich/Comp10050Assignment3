@@ -35,6 +35,10 @@ struct slot{
 	int column;
 	//Type of slot
 	int slot_type;
+	//Represents if there is at least one player in the slot
+	int occupied;
+	//Represents which players are in the slot
+	int playersPresent[PLAYER_MAX];
 	// adjacent left slot
 	struct slot *left;
 	// adjacent right slot
@@ -75,7 +79,7 @@ void getDesiredElement(int maxsize, int * row, int * col);
  * 	downLeft: pointer of pointer to slot at position (size -1, 0)
  * 	upLeft: pointer of pointer to slot at position (size - 1, size -1)
  */
-void createBoard(int boardSize, struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight);
+void createBoard(struct slot **board, int boardSize, struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight);
 
 /*
  * This function traverses the board to find a slot at a predefined

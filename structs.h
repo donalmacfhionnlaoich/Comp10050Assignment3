@@ -20,6 +20,7 @@ struct player_type {
 	int dexterity;
 	int row;
 	int column;
+	int id;
 };
 
 /*struct slot_type {

@@ -9,13 +9,47 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include<string.h>
 #include "crossfireOperations.h"
 #include "structs.h"
+#include "Prototypes.h"
 
 int main(){
 
 	setbuf(stdout,NULL);	//Fix error with eclipse on Windows.
 	srand(time(NULL));
+
+	int row, column;
+
+	struct slot* currSlot = NULL;
+	struct slot *foundSlots;
+	bool explored[BOARD_SIZE][BOARD_SIZE];
+	int count =0;
+
+	//pointer to slot (0,0)
+	struct slot *upLeft;
+
+	//pointer to slot (0,boardSize -1)
+	struct slot *upRight;
+
+	//pointer to slot (boardSize - 1, 0)
+	struct slot *downLeft;
+
+	//pointer to slot (boardSize - 1, boardSize -1)
+	struct slot *downRight;
+
+	struct slot ** board = calloc(BOARD_SIZE, sizeof(struct slot *));
+
+
+		for(int i =0; i< BOARD_SIZE; i++)
+		{
+			//This allocates in memory the space for the slots in each row of the board
+			board[i] = calloc(BOARD_SIZE, sizeof(struct slot));
+		}
+
+	//Creates the board
+	createBoard(board,BOARD_SIZE,&upLeft, &upRight, &downLeft, &downRight);
+
 	unsigned int n, typeNum;
 	printf("There can be 1-%d players in the game.\n", PLAYER_MAX);
 	printf("How many players are there: ");
@@ -45,52 +79,28 @@ int main(){
 		}
 		player[i].lifepoints = 100.0;		// Sets everybody's LP's too 100.0 as stated
 											// Must be floating point for attack calculations
+		player[i].id = i;
 		/* Switch that copies player's type and respective capabilities to each struct member */
 		switch(typeNum - 1)
 		{
 			case humanType:
 				strcpy(player[i].type, "Human");
-				human(&player[i]);		// Elf function (see playerTypes.c)
+				human(&player[i], board);		// Elf function (see playerTypes.c)
 				break;
 			case ogreType:
 				strcpy(player[i].type, "Ogre");
-				ogre(&player[i]);		// Human function (see playerTypes.c)
+				ogre(&player[i], board);		// Human function (see playerTypes.c)
 				break;
 			case wizardType:
 				strcpy(player[i].type, "Wizard");
-				wizard(&player[i]);		// Ogre function (see playerTypes.c)
+				wizard(&player[i], board);		// Ogre function (see playerTypes.c)
 				break;
 			case elfType:
 				strcpy(player[i].type, "Elf");
-				elf(&player[i]);		// Wizard function (see playerTypes.c)
+				elf(&player[i], board);		// Wizard function (see playerTypes.c)
 				break;
 		}
 	}
-
-
-	int row, column;
-
-	struct slot* currSlot = NULL;
-	struct slot *foundSlots;
-	bool explored[BOARD_SIZE][BOARD_SIZE];
-	int count =0;
-
-	//pointer to slot (0,0)
-	struct slot *upLeft;
-
-	//pointer to slot (0,boardSize -1)
-	struct slot *upRight;
-
-	//pointer to slot (boardSize - 1, 0)
-	struct slot *downLeft;
-
-	//pointer to slot (boardSize - 1, boardSize -1)
-	struct slot *downRight;
-
-
-	//Creates the board
-	createBoard(BOARD_SIZE,&upLeft, &upRight, &downLeft, &downRight);
-
 	/*	Asks the user the row and the column of the slot
 		s/he wants to retrieve from the board.
 		Note that the user needs to know the size of the board to input
