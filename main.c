@@ -55,7 +55,7 @@ int main(){
 	printf("How many players are there: ");
 	scanf("%u", &n);		// Stores number of players in n
 	/* Loop which ensures players number between 1 and defined player max (6) */
-	while(n<1 || n>PLAYER_MAX)
+	while(n<2 || n>PLAYER_MAX)
 	{
 		puts("That number of players is invalid. Please enter a valid number of players.");
 		scanf("%u", &n);	// Re-loops if incorrect number is entered
@@ -63,7 +63,7 @@ int main(){
 
 	struct player_type *player;
 	player = calloc(n,sizeof(struct player_type));
-	puts("\nA players name can have a maximum length of 19 characters.");
+	puts("\nA player's name can have a maximum length of 19 characters.");
 	puts("There are 4 types of player: Elf, Human, Ogre and Wizard.");	//Giving information to user on the possible types of player_type and name specs.
 	for(unsigned i=0; i<n; i++)
 	{
@@ -101,6 +101,24 @@ int main(){
 				break;
 		}
 	}
+	printPlayersStatus(player, n);
+	int playersOut = 0;
+
+	do{
+
+	}while(n-1>playersOut);
+
+	if(n>playersOut)
+	{
+		for(int i=0;i<n;i++)
+		{
+			if(player[i].lifepoints>0)
+			{
+				printf("%s has won the game! GG",player[i].);
+			}
+		}
+	}
+#if 0
 	/*	Asks the user the row and the column of the slot
 		s/he wants to retrieve from the board.
 		Note that the user needs to know the size of the board to input
@@ -150,6 +168,6 @@ int main(){
 			printf("(%d, %d)-> ",foundSlots[i].row, foundSlots[i].column);
 		}
 	}
-
+#endif
 	return 0;
 }

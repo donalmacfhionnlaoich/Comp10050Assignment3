@@ -8,6 +8,8 @@
 #ifndef PROTOTYPES_H_
 #define PROTOTYPES_H_
 
+void printPlayersStatus(struct player_type *player, int n);
+
 /* PLAYER TYPES SLOTS */
 void human(struct player_type *player, struct slot **board);
 void ogre(struct player_type *player, struct slot **board);
