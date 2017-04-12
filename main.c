@@ -106,6 +106,7 @@ int main(){
 
 	do{
 
+
 	}while(n-1>playersOut);
 
 	if(n>playersOut)
@@ -114,7 +115,7 @@ int main(){
 		{
 			if(player[i].lifepoints>0)
 			{
-				printf("%s has won the game! GG",player[i].);
+				printf("%s has won the game! GG",player[i].name);
 			}
 		}
 	}

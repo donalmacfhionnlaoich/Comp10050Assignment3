@@ -36,3 +36,6 @@ void MoveSlot (struct slot ** board,struct player_type player, const int numOfPl
 		board[tempRow][tempColumn].occupied = false;
 	}
 }
+
+
+

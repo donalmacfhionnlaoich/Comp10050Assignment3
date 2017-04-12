@@ -142,63 +142,90 @@ void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct
  * 	column: the column in which the desired slot is located
  * 	initialSlot: the slot from which the slot search should start
  */
-struct slot * reachDesiredElement(int row, int column, struct slot * initialSlot){
+struct slot * reachDesiredElement(int row, int column, struct slot * initialSlot)
+{
 
 	bool found = false;
 	//current slot
 	struct slot * currentSlot = initialSlot;
 
-	printf("\nFunction reachDesiredElement invoked\n");
+	int distance;
+	if(initialSlot.row>=row)
+	{
+		distance = initialSlot.row-row;
+	}
+	else
+	{
+		distance = row-initialSlot.row;
+	}
+	if(initialSlot.column>=column)
+	{
+		distance += initialSlot.column-column;
+	}
+	else
+	{
+		distance += column-initialSlot.column;
+	}
+
+//printf("\nFunction reachDesiredElement invoked\n");
 
 	//prints the column and the row of the initial slot from which the search starts
-	printf("Initial slot (%d, %d) -> \n",initialSlot->row,initialSlot->column);
-
+//printf("Initial slot (%d, %d) -> \n",initialSlot->row,initialSlot->column);
+	if(distance < 2 && initialSlot.row>row)
+	{
+		currentSlot = currentSlot->up;
+	}
 
 	//while the slot is not found
-	while(found == false){
+	while(found == false)
+	{
 
 
 		//if the row of the current slot is > of the row of the desired slot,
 		//we move up
-		if(currentSlot->row > row){
+		if(currentSlot->row > row)
+		{
 			//the current slot now points to the slot one row up
 			currentSlot = currentSlot->up;
 			//prints the column and the row of the current slot
-			printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
+//printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
 		}
 		//if the row of the current slot is < of the row of the desired slot,
 		//we move down
-		if(currentSlot->row < row){
+		if(currentSlot->row < row)
+		{
 			//the current slot now points to the slot one row down
 			currentSlot = currentSlot->down;
 			//prints the row and the column of the current slot
-			printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
+//printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
 
 		}
 		//if the column of the current slot is > of the column of the desired slot,
 		//we move left
-		if(currentSlot->column > column){
+		if(currentSlot->column > column)
+		{
 
 			//the current slot now points to the slot one column left
 			currentSlot = currentSlot->left;
 			//prints the row and the column of the current slot
-			printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
+//printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
 		}
 
 		//if the column of the current slot is < of the column of the desired slot,
 		//we move right
-		if(currentSlot->column < column){
+		if(currentSlot->column < column)
+		{
 
 			//the current slot now points to the slot one column right
 			currentSlot = currentSlot->right;
 			//prints the row and the column of the current slot
-			printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
+//printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
 
 		}
 		//if the current slot is at a column and a row equal to the desired column and row, respectively
 		// we found the slot
-		if(currentSlot->column == column && currentSlot->row == row){
-			printf("Found\n");
+			if(currentSlot->column == column && currentSlot->row == row){
+//printf("Found\n");
 			found = true;
 
 		}
@@ -257,12 +284,54 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the left slot
 			findSlots(reqDist, currDist +1,  currSlot->left, foundSlots, count, explored);
 		}
-
 	}
-
-
 }
 
+int checkNearAttack(struct slot ** board, int row, int column)
+{
+	if((checkslot(row,column,board))==true)
+	{
+		return true;
+	}
+	if(row+1<BOARD_SIZE)
+	{
+		if((checkslot(row+1,column,board))==true)
+		{
+			return true;
+		}
+	}
+	if(column+1<BOARD_SIZE)
+	{
+		if((checkslot(row,column+1,board))==true)
+		{
+			return true;
+		}
+	}
+	if(row-1>=0)
+	{
+		if((checkslot(row-1,column,board))==true)
+		{
+			return true;
+		}
+	}
+	if(column-1>=0)
+	{
+		if((checkslot(row,column-1,board))==true)
+		{
+			return true;
+		}
+	}
+	return false;
+}
+
+int checkSlot(int row, int column, struct slot ** board)
+{
+	if(board[row][column].occupied)
+	{
+		return true;
+	}
+	return false;
+}
 
 
 
