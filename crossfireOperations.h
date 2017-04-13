@@ -103,4 +103,6 @@ struct slot *  reachDesiredElement(int row, int column, struct slot * initialSlo
  * 	count: pointer to an integer representing the number of slots that are found to be at a required distance from the starting slot
  * 	explored: matrix indicating for each slot at row x and column y has been traversed (true) or not (false)
  */
-void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[7][7]);
+void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[7][7], int * playersFound);
+
+int checkSlot(int row, int column, struct slot ** board);

@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
-#include<string.h>
+#include <string.h>
 #include "crossfireOperations.h"
 #include "structs.h"
 #include "Prototypes.h"
@@ -19,11 +19,11 @@ int main(){
 	setbuf(stdout,NULL);	//Fix error with eclipse on Windows.
 	srand(time(NULL));
 
-	int row, column;
+	int row, column, i;
 
 	struct slot* currSlot = NULL;
-	struct slot *foundSlots;
-	bool explored[BOARD_SIZE][BOARD_SIZE];
+	struct slot *foundSlots = calloc((BOARD_SIZE*BOARD_SIZE), sizeof(struct slot));
+	bool explored[BOARD_SIZE][BOARD_SIZE] = {false};
 	int count =0;
 
 	//pointer to slot (0,0)
@@ -41,7 +41,7 @@ int main(){
 	struct slot ** board = calloc(BOARD_SIZE, sizeof(struct slot *));
 
 
-		for(int i =0; i< BOARD_SIZE; i++)
+		for(i =0; i< BOARD_SIZE; i++)
 		{
 			//This allocates in memory the space for the slots in each row of the board
 			board[i] = calloc(BOARD_SIZE, sizeof(struct slot));
@@ -103,8 +103,18 @@ int main(){
 	}
 	printPlayersStatus(player, n);
 	int playersOut = 0;
+	int playersFound[PLAYER_MAX] = {0};
 
+	for(i=2;i<5;i++){
+			findSlots(i, 0,  &board[player[0].row][player[0].column], foundSlots, &count, explored, playersFound);
+			printf("%d Iteration\n", i-1);
+		}
+		for(i=0;i<PLAYER_MAX;i++){
+			printf("Player %d was found: %d\n", i, playersFound[i]);
+		}
+		printPlayersStatus(player, n);
 	do{
+		
 
 
 	}while(n-1>playersOut);
@@ -119,6 +129,7 @@ int main(){
 			}
 		}
 	}
+	
 #if 0
 	/*	Asks the user the row and the column of the slot
 		s/he wants to retrieve from the board.
