@@ -17,7 +17,7 @@
 #define PLAYER_MAX 6
 
 enum playerType {humanType, ogreType, wizardType, elfType};
-enum slotType {level_ground, city, hill};
+enum slotType {level_ground, cityType, hillType};
 /*
  * Definition of boolean types
  * This avoids using <stdbool.h>
@@ -35,7 +35,6 @@ struct slot{
 	int column;
 	//Type of slot
 	int slot_type;
-	char slot_name[15];
 	//Represents if there is at least one player in the slot
 	int occupied;
 	//Represents which players are in the slot

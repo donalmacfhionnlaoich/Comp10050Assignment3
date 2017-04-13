@@ -11,7 +11,7 @@
 struct player_type {
 	char name[20];
 	char type[20];
-	char currentSlot[20];
+	char currentSlot[20];	//Is this needed???
 	float lifepoints;
 	int smartness;
 	int strength;
@@ -22,12 +22,5 @@ struct player_type {
 	int column;
 	int id;
 };
-
-/*struct slot_type {
-	char type[20];
-	int numb;
-	int taken;
-	char occupant[20];
-};*/
 
 #endif /* STRUCTS_H_ */
