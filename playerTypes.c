@@ -9,6 +9,9 @@
 #include "structs.h"	//Including the definitions of structs.
 #include <stdlib.h>		//Including prototypes of functions.
 
+void city(struct player_type player);
+void hill(struct player_type player);
+
 //Function to assign attributes of human player type to player.
 void human(struct player_type *player, struct slot **board){
 	int attrib[5], sum, i;		//Integer array to hold 5 attribute values. Declaring sum to keep a total of the sum of all elements assigned to the 5 attributes. i is an indexing variable.
@@ -33,11 +36,11 @@ void human(struct player_type *player, struct slot **board){
 
 	if(board[player->row][player->column].slot_type == cityType)
 	{
-		city(player);
+		city(*player);
 	}
 	else if(board[player->row][player->column].slot_type == hillType)
 	{
-		hill(player);
+		hill(*player);
 	}
 }
 
