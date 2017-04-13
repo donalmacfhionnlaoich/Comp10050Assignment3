@@ -23,14 +23,16 @@
  * 	downLeft: pointer of pointer to slot at position (boardSsize -1, 0)
  * 	upLeft: pointer of pointer to slot at position (boardSize - 1, boardSize -1)
  */
-void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight){
+void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight)
+{
 
 	//The board is represented as a pointer of pointer to slots
 	//This allocates in memory the space for the pointers to each row of the board
 	//**struct slot ** board = calloc(boardSize * sizeof(struct slot *));
 
 
-	for(int i =0; i< boardSize; i++){
+	for(int i =0; i< boardSize; i++)
+	{
 		//This allocates in memory the space for the slots in each row of the board
 		//**board[i] = calloc(boardSize * sizeof(struct slot));
 
@@ -41,22 +43,28 @@ void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct
 			board[i][j].column = j;
 			int x = rand() % 3;
 			board[i][j].slot_type = x;
-			if(x == 0){
+			if(x == 0)
+			{
 			strcpy(board[i][j].slot_name,"Level Ground");
-				}
-			else if(x == 1){
+			}
+			else if(x == 1)
+			{
 			strcpy(board[i][j].slot_name, "City");
-		}
-		else if(x == 2){
-		strcpy(board[i][j].slot_name, "Hill");
-			//Occupied int and playersPresent array all set to 0 by default because of calloc
+			}
+			else if(x == 2)
+			{
+			strcpy(board[i][j].slot_name, "Hill");
+				//Occupied int and playersPresent array all set to 0 by default because of calloc
+			}
 		}
 	}
 
 	//It sets up the adjacent slots for the slots that are
 	//not at the borders. These slots have 4 adjacent elements
-	for(int i =1; i< boardSize-1; i++){
-		for(int j=1;j < boardSize-1; j++){
+	for(int i =1; i< boardSize-1; i++)
+	{
+		for(int j=1;j < boardSize-1; j++)
+		{
 			board[i][j].up = &board[i-1][j];
 			board[i][j].right = &board[i][j+1];
 			board[i][j].down = &board[i+1][j];
@@ -67,7 +75,8 @@ void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct
 	//It sets up the adjacent slots for the slots that are
 	//in the first and the last row, except the slots at the edges.
 	//
-	for(int j = 1; j < boardSize -1; j++){
+	for(int j = 1; j < boardSize -1; j++)
+	{
 		//It sets up the adjacent slots for the slots that are in the first row.
 		//These slots don't have an adjacent element on top of them
 		// because they are on the first row of the board
@@ -141,7 +150,7 @@ void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct
 	*downLeft = &board[boardSize -1][0];
 	//assigns pointer of pointer to slot at position (boardSize -1, boardSize -1)
 	*downRight = &board[boardSize -1][boardSize -1];
-	}
+}
 
 
 
