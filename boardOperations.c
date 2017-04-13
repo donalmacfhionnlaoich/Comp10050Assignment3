@@ -246,68 +246,68 @@ struct slot * reachDesiredElement(int row, int column, struct slot * initialSlot
  * 	count: pointer to an integer representing the number of slots that are found to be at a required distance from the starting slot
  * 	explored: matrix indicating for each slot at row x and column y has been traversed (true) or not (false)
  */
-void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[BOARD_SIZE][BOARD_SIZE], int * playersFound){
+void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[BOARD_SIZE][BOARD_SIZE], int * playersFound, int *checker)
+{
 
-
-
-	printf("Test1 %d,%d\n", currSlot->row, currSlot->column);
+	//printf("Test1 %d,%d\n", currSlot->row, currSlot->column);
 	//The base case: the current slot is at the required distance from the starting slot
 	if(currDist == reqDist){
-		printf("Test2 %d,%d\n", currSlot->row, currSlot->column);
+		//printf("Test2 %d,%d\n", currSlot->row, currSlot->column);
 		//the current slot was not explored
-		printf("Bool %d\n", explored[currSlot->row][currSlot->column]);
+		//printf("Bool %d\n", explored[currSlot->row][currSlot->column]);
 		if(explored[currSlot->row][currSlot->column] == false){
 			
 			//The next availbale position (indicated by count) at foundSlots points to the current slot
-			printf("In explored\n");
+			//printf("In explored\n");
 			*(foundSlots + *count) = *currSlot;
 			//the counter is incremented
-			printf("In found\n");
+			//printf("In found\n");
 			(*count)++;
-			printf("In count\n");
+			//printf("In count\n");
 			//the matrix of the explored slots set to true the element at the row and column of the current slot
 			explored[currSlot->row][currSlot->column] = true;
-			printf("In In explored\n");
+			//printf("In In explored\n");
 			if(currSlot->occupied == true){
-				printf("OCCUPIED\n");
+				//printf("OCCUPIED\n");
 				for(int i =0; i<PLAYER_MAX;i++){
 					if(currSlot->playersPresent[i]==1){
-						playersFound[i] =1;
-						printf("Player %d can be attacked\n", i+1);
+						playersFound[i] = 1;
+						(*checker) ++;
+						//printf("Player %d can be attacked\n", i+1);
 					}
 				}
 			}
 			else{
-				printf("NOT OCCUPIED\n");
+				//printf("NOT OCCUPIED\n");
 			}
 		}
 	}
 	//The recursive call: the current slot is at a distance that is less than the required distance (more slots still have to be traversed)
 	else{
-		printf("Test7 %d,%d\n", currSlot->row, currSlot->column);
+		//printf("Test7 %d,%d\n", currSlot->row, currSlot->column);
 		//if the current slot has the up slot != NULL (i.e. the slot is not in the first row)
 		if(currSlot->up != NULL){
-			printf("Test3 %d,%d\n", currSlot->row, currSlot->column);
+			//printf("Test3 %d,%d\n", currSlot->row, currSlot->column);
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the up slot
-			findSlots(reqDist, currDist +1,  currSlot->up, foundSlots, count, explored, playersFound);
+			findSlots(reqDist, currDist +1,  currSlot->up, foundSlots, count, explored, playersFound, checker);
 		}
 		//if the current slot has the right slot != NULL (i.e. the slot is not in the last column)
 		if(currSlot->right != NULL){
-			printf("Test4 %d,%d\n", currSlot->row, currSlot->column);
+			//printf("Test4 %d,%d\n", currSlot->row, currSlot->column);
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the right slot
-			findSlots(reqDist, currDist +1,  currSlot->right, foundSlots, count, explored, playersFound);
+			findSlots(reqDist, currDist +1,  currSlot->right, foundSlots, count, explored, playersFound, checker);
 		}
 		//if the current slot has the down slot != NULL (i.e. the slot is not in the last row)
 		if(currSlot->down != NULL){
-			printf("Test5 %d,%d\n", currSlot->row, currSlot->column);
+			//printf("Test5 %d,%d\n", currSlot->row, currSlot->column);
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the down slot
-			findSlots(reqDist, currDist +1,  currSlot->down, foundSlots, count, explored, playersFound);
+			findSlots(reqDist, currDist +1,  currSlot->down, foundSlots, count, explored, playersFound, checker);
 		}
 		//if the current slot has the left slot != NULL (i.e. the slot is not in the first column)
 		if(currSlot->left != NULL){
-			printf("Test6 %d,%d\n", currSlot->row, currSlot->column);
+			//printf("Test6 %d,%d\n", currSlot->row, currSlot->column);
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the left slot
-			findSlots(reqDist, currDist +1,  currSlot->left, foundSlots, count, explored, playersFound);
+			findSlots(reqDist, currDist +1,  currSlot->left, foundSlots, count, explored, playersFound, checker);
 		}
 	}
 }

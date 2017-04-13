@@ -21,6 +21,7 @@ struct player_type {
 	int row;
 	int column;
 	int id;
+	int nearCheck, distantCheck, magicCheck;
 };
 
 #endif /* STRUCTS_H_ */

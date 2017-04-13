@@ -105,17 +105,62 @@ int main(){
 	int playersOut = 0;
 	int playersFound[PLAYER_MAX] = {0};
 
-	for(i=2;i<5;i++){
-			findSlots(i, 0,  &board[player[0].row][player[0].column], foundSlots, &count, explored, playersFound);
-			printf("%d Iteration\n", i-1);
-		}
-		for(i=0;i<PLAYER_MAX;i++){
-			printf("Player %d was found: %d\n", i, playersFound[i]);
-		}
-		printPlayersStatus(player, n);
+	/*for(i=2;i<5;i++)
+	{
+		findSlots(i, 0,  &board[player[0].row][player[0].column], foundSlots, &count, explored, playersFound);
+		printf("%d Iteration\n", i-1);
+	}
+	for(i=0;i<PLAYER_MAX;i++)
+	{
+		printf("Player %d was found: %d\n", i, playersFound[i]);
+	}*/
+	printPlayersStatus(player, n);
+	bool checkerN;
+	int checkerD;
+	int x, j;
 	do{
-		
+		//For loop to iterate through all players
+		for(x = 0; x<n;x++)
+		{
+			//Checking that the player is alive
+			if(player[x].lifepoints>0)
+			{
+				//Resetting checks of possible atatcks to false
+				player[x].nearCheck = false;
+				player[x].distantCheck = false;
+				player[x].magicCheck = false;
 
+				//Resetting checkerD to false
+				checkerD = 0;
+
+				//Resetting playersFOund array to 0
+				for(i=0;i<PLAYER_MAX;i++)
+				{
+					playersFound[i]=0;
+				}
+
+				//Checking if a near attack is possible and assigning result to player's check.
+				player[x].nearCheck = checkNearAttack(board, player[x].row, player[x].column);
+
+				//checking if a distant attack is possible
+				for(j=2;j<5;j++)
+				{
+					findSlots(j, 0,  &board[player[x].row][player[x].column], foundSlots, &count, explored, playersFound, &checkerD);
+				}
+				//Setting distant check to true if there is another player found
+				if(checkerD>1)	//1 because the player always finds them-self
+				{
+					player[x].distantCheck = true;
+				}
+
+				//Checking if player can make a magic attack
+				if((player[x].smartness + player[x].magicskills)>150)
+				{
+					player[x].magicCheck = true;
+				}
+
+			}
+		}
 
 	}while(n-1>playersOut);
 
