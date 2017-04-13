@@ -65,6 +65,15 @@ void ogre(struct player_type *player, struct slot **board){
 	player->column = rand() % BOARD_SIZE;
 	board[player->row][player->column].occupied = true;
 	board[player->row][player->column].playersPresent[player->id]=1;
+
+	if(board[player->row][player->column].slot_type == cityType)
+	{
+		city(*player);
+	}
+	else if(board[player->row][player->column].slot_type == hillType)
+	{
+		hill(*player);
+	}
 }
 
 //Function to assign attributes of wizard player type to player.
@@ -79,6 +88,15 @@ void wizard(struct player_type *player, struct slot **board){
 	player->column = rand() % BOARD_SIZE;
 	board[player->row][player->column].occupied = true;
 	board[player->row][player->column].playersPresent[player->id]=1;
+
+	if(board[player->row][player->column].slot_type == cityType)
+	{
+		city(*player);
+	}
+	else if(board[player->row][player->column].slot_type == hillType)
+	{
+		hill(*player);
+	}
 }
 
 //Function to assign attributes of wizard player type to player.
@@ -93,4 +111,13 @@ void elf(struct player_type *player, struct slot **board){
 	player->column = rand() % BOARD_SIZE;
 	board[player->row][player->column].occupied = true;
 	board[player->row][player->column].playersPresent[player->id]=1;
+
+	if(board[player->row][player->column].slot_type == cityType)
+	{
+		city(*player);
+	}
+	else if(board[player->row][player->column].slot_type == hillType)
+	{
+		hill(*player);
+	}
 }
