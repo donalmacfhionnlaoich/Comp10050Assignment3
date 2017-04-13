@@ -34,6 +34,7 @@ struct slot{
 	//column number
 	int column;
 	//Type of slot
+	char slot_name[15];
 	int slot_type;
 	//Represents if there is at least one player in the slot
 	int occupied;

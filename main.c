@@ -51,7 +51,7 @@ int main(){
 	createBoard(board,BOARD_SIZE,&upLeft, &upRight, &downLeft, &downRight);
 
 	unsigned int n, typeNum;
-	printf("There can be 1-%d players in the game.\n", PLAYER_MAX);
+	printf("There can be 2-%d players in the game.\n", PLAYER_MAX);
 	printf("How many players are there: ");
 	scanf("%u", &n);		// Stores number of players in n
 	/* Loop which ensures players number between 1 and defined player max (6) */
@@ -101,7 +101,7 @@ int main(){
 				break;
 		}
 	}
-	printPlayersStatus(player, n);
+	printPlayersStatus(player, n, board);
 	int playersOut = 0;
 	int playersFound[PLAYER_MAX] = {0};
 
@@ -114,14 +114,14 @@ int main(){
 	{
 		printf("Player %d was found: %d\n", i, playersFound[i]);
 	}*/
-	printPlayersStatus(player, n);
-	bool checkerN;
+	printPlayersStatus(player, n, board);
 	int checkerD;
 	int x, j;
 	do{
 		//For loop to iterate through all players
 		for(x = 0; x<n;x++)
 		{
+			/*PLAYER ROUND*/
 			//Checking that the player is alive
 			if(player[x].lifepoints>0)
 			{

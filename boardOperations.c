@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "crossfireOperations.h"
 
 
@@ -34,10 +35,20 @@ void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct
 		//**board[i] = calloc(boardSize * sizeof(struct slot));
 
 		//For each slot it sets up the row and column number
-		for(int j=0;j < boardSize; j++){
+		for(int j=0;j < boardSize; j++)
+		{
 			board[i][j].row = i;
 			board[i][j].column = j;
-			board[i][j].slot_type = rand() % 3;
+			int x = rand() % 3;
+			board[i][j].slot_type = x;
+			if(x == 0){
+			strcpy(board[i][j].slot_name,"Level Ground");
+				}
+			else if(x == 1){
+			strcpy(board[i][j].slot_name, "City");
+		}
+		else if(x == 2){
+		strcpy(board[i][j].slot_name, "Hill");
 			//Occupied int and playersPresent array all set to 0 by default because of calloc
 		}
 	}
