@@ -5,11 +5,12 @@
  *      Author: Dónal
  */
 
+#include "crossfireOperations.h"
 #include "structs.h"	//Including definition of structs
 #include <stdio.h>		//Including stdio library for printf function.
 
 //Function to print out all details of every player.
-void printPlayersStatus(struct player_type *player, int n)
+void printPlayersStatus(struct player_type *player, int n, struct slot ** board)
 {
 	for(int i=0; i<n; ++i)	//For loop to index through each player up to the final player.
 	{
@@ -22,8 +23,7 @@ void printPlayersStatus(struct player_type *player, int n)
 		printf("Magic Skills:\t%d\n", player[i].magicskills);	//Printing the value of the magic skills of the slected player.
 		printf("Luck:\t\t%d\n", player[i].luck);				//Printing the value of the luck of the slected player.
 		printf("Dexterity:\t%d\n", player[i].dexterity);		//Printing the value of the dexterity of the slected player.
-		//printf("Location:\tSlot %d\n", player[i].slot);			//Printing the slot number of the player.
-		printf("Slot Name:\t%s\n", player[i].currentSlot);		//Printing the slot type of the player.
+		printf("Slot Name:\t%s\n", board[player[i].row][player[i].column].slot_name);		//Printing the slot type of the player.
 		printf("Player ID:\t%d\n",player[i].id);
 		printf("Position:\t (%d,%d)\n",player[i].row,player[i].column);
 	}

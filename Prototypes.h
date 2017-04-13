@@ -8,7 +8,7 @@
 #ifndef PROTOTYPES_H_
 #define PROTOTYPES_H_
 
-void printPlayersStatus(struct player_type *player, int n);
+void printPlayersStatus(struct player_type *player, int n, struct slot ** board);
 
 /* PLAYER TYPES SLOTS */
 void human(struct player_type *player, struct slot **board);

@@ -9,6 +9,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+ #include <string.h>
 #include "crossfireOperations.h"
 
 
@@ -37,7 +38,17 @@ void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct
 		for(int j=0;j < boardSize; j++){
 			board[i][j].row = i;
 			board[i][j].column = j;
-			board[i][j].slot_type = rand() % 3;
+			int x = rand() % 3;
+			board[i][j].slot_type = x;
+			if(x == 0){
+			strcpy(board[i][j].slot_name,"Level Ground");
+			}
+			else if(x == 1){
+			strcpy(board[i][j].slot_name, "City");
+			}
+			else if(x == 2){
+			strcpy(board[i][j].slot_name, "Hill");
+		}
 			//Occupied int and playersPresent array all set to 0 by default because of calloc
 		}
 	}
@@ -133,108 +144,6 @@ void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct
 	}
 
 
-
-/*
- * This function traverses the board to find a slot at a predefined
- * position (row, column). This function returns a pointer to the desired slot
- * Parameters:
- * 	row: the row in which the desired slot is located
- * 	column: the column in which the desired slot is located
- * 	initialSlot: the slot from which the slot search should start
- */
-struct slot * reachDesiredElement(int row, int column, struct slot * initialSlot)
-{
-
-	bool found = false;
-	//current slot
-	struct slot * currentSlot = initialSlot;
-
-	int distance;
-	if(initialSlot->row>=row)
-	{
-		distance = initialSlot->row-row;
-	}
-	else
-	{
-		distance = row-initialSlot->row;
-	}
-	if(initialSlot->column>=column)
-	{
-		distance += initialSlot->column-column;
-	}
-	else
-	{
-		distance += column-initialSlot->column;
-	}
-
-//printf("\nFunction reachDesiredElement invoked\n");
-
-	//prints the column and the row of the initial slot from which the search starts
-//printf("Initial slot (%d, %d) -> \n",initialSlot->row,initialSlot->column);
-	if(distance < 2 && initialSlot->row>row)
-	{
-		currentSlot = currentSlot->up;
-	}
-
-	//while the slot is not found
-	while(found == false)
-	{
-
-
-		//if the row of the current slot is > of the row of the desired slot,
-		//we move up
-		if(currentSlot->row > row)
-		{
-			//the current slot now points to the slot one row up
-			currentSlot = currentSlot->up;
-			//prints the column and the row of the current slot
-//printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
-		}
-		//if the row of the current slot is < of the row of the desired slot,
-		//we move down
-		if(currentSlot->row < row)
-		{
-			//the current slot now points to the slot one row down
-			currentSlot = currentSlot->down;
-			//prints the row and the column of the current slot
-//printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
-
-		}
-		//if the column of the current slot is > of the column of the desired slot,
-		//we move left
-		if(currentSlot->column > column)
-		{
-
-			//the current slot now points to the slot one column left
-			currentSlot = currentSlot->left;
-			//prints the row and the column of the current slot
-//printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
-		}
-
-		//if the column of the current slot is < of the column of the desired slot,
-		//we move right
-		if(currentSlot->column < column)
-		{
-
-			//the current slot now points to the slot one column right
-			currentSlot = currentSlot->right;
-			//prints the row and the column of the current slot
-//printf("Current slot (%d, %d) -> \n",currentSlot->row,currentSlot->column);
-
-		}
-		//if the current slot is at a column and a row equal to the desired column and row, respectively
-		// we found the slot
-			if(currentSlot->column == column && currentSlot->row == row){
-//printf("Found\n");
-			found = true;
-
-		}
-
-	}
-	//returns the found slot
-	return currentSlot;
-}
-
 /*
  * The recursive function that traverses the board to find the slots at a predefined
  * distance from the current slot and place them in foundSlots.
@@ -274,6 +183,7 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 					if(currSlot->playersPresent[i]==1){
 						playersFound[i] =1;
 						printf("Player %d can be attacked\n", i+1);
+						
 					}
 				}
 			}
@@ -312,42 +222,42 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 	}
 }
 
-/*int checkNearAttack(struct slot ** board, int row, int column)
+int checkNearAttack(struct slot ** board, int row, int column)
 {
-	if((checkslot(row,column,board))==true)
+	if((checkSlot(row,column,board))==true)
 	{
 		return true;
 	}
 	if(row+1<BOARD_SIZE)
 	{
-		if((checkslot(row+1,column,board))==true)
+		if((checkSlot(row+1,column,board))==true)
 		{
 			return true;
 		}
 	}
 	if(column+1<BOARD_SIZE)
 	{
-		if((checkslot(row,column+1,board))==true)
+		if((checkSlot(row,column+1,board))==true)
 		{
 			return true;
 		}
 	}
 	if(row-1>=0)
 	{
-		if((checkslot(row-1,column,board))==true)
+		if((checkSlot(row-1,column,board))==true)
 		{
 			return true;
 		}
 	}
 	if(column-1>=0)
 	{
-		if((checkslot(row,column-1,board))==true)
+		if((checkSlot(row,column-1,board))==true)
 		{
 			return true;
 		}
 	}
 	return false;
-}*/
+}
 
 int checkSlot(int row, int column, struct slot ** board)
 {
