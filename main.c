@@ -114,66 +114,151 @@ int main(){
 	{
 		printf("Player %d was found: %d\n", i, playersFound[i]);
 	}*/
-	printPlayersStatus(player, n, board);
+	//printPlayersStatus(player, n, board);
 	int checkerD;
-	int x, j;
-	do{
+	int x, j, choice;
+	char slotChoice;
 		//For loop to iterate through all players
-		for(x = 0; x<n;x++)
+	for(x = 0; x<n;x++)
+	{
+		printf("PlAyEr %d Test\n", x);
+		/*PLAYER ROUND*/
+		//Checking that the player is alive
+		if(player[x].lifepoints>0)
 		{
-			/*PLAYER ROUND*/
-			//Checking that the player is alive
-			if(player[x].lifepoints>0)
+			//Resetting checks of possible atatcks to false
+			player[x].nearCheck = false;
+			player[x].distantCheck = false;
+			player[x].magicCheck = false;
+
+			//Resetting checkerD to false
+			checkerD = 0;
+			memset(&explored, 0, sizeof(bool) * BOARD_SIZE*BOARD_SIZE);
+			
+
+			//Resetting playersFOund array to 0
+			for(i=0;i<PLAYER_MAX;i++)
 			{
-				//Resetting checks of possible atatcks to false
-				player[x].nearCheck = false;
-				player[x].distantCheck = false;
-				player[x].magicCheck = false;
-
-				//Resetting checkerD to false
-				checkerD = 0;
-
-				//Resetting playersFOund array to 0
-				for(i=0;i<PLAYER_MAX;i++)
-				{
-					playersFound[i]=0;
-				}
-
-				//Checking if a near attack is possible and assigning result to player's check.
-				player[x].nearCheck = checkNearAttack(board, player[x].row, player[x].column);
-
-				//checking if a distant attack is possible
-				for(j=2;j<5;j++)
-				{
-					findSlots(j, 0,  &board[player[x].row][player[x].column], foundSlots, &count, explored, playersFound, &checkerD);
-				}
-				//Setting distant check to true if there is another player found
-				if(checkerD>1)	//1 because the player always finds them-self
-				{
-					player[x].distantCheck = true;
-				}
-
-				//Checking if player can make a magic attack
-				if((player[x].smartness + player[x].magicskills)>150)
-				{
-					player[x].magicCheck = true;
-				}
-
+				playersFound[i]=0;
 			}
+
+			//Checking if a near attack is possible and assigning result to player's check.
+			player[x].nearCheck = checkNearAttack(board, player[x].row, player[x].column, x);
+			printf("NearAttack %d\n", player[x].nearCheck);
+
+			//checking if a distant attack is possible
+			for(j=2;j<5;j++)
+			{
+				findSlots(j, 0,  &board[player[x].row][player[x].column], foundSlots, &count, explored, playersFound, &checkerD, x);
+			}
+			//Setting distant check to true if there is another player found
+			if(checkerD>0)	//1 because the player always finds them-self
+			{
+				player[x].distantCheck = true;
+				printf("DistAttack %d\n", player[x].distantCheck);
+			}
+
+			//Checking if player can make a magic attack
+			if((player[x].smartness + player[x].magicskills)>150)
+			{
+				player[x].magicCheck = true;
+				printf("MagicAttack %d\n", player[x].magicCheck);
+			}
+
 		}
+	}
 
-	}while(n-1>playersOut);
-
-	if(n>playersOut)
+	do
 	{
 		for(int i=0;i<n;i++)
 		{
 			if(player[i].lifepoints>0)
 			{
-				printf("%s has won the game! GG",player[i].name);
+				if(((player[i].magicCheck!=1)||(player[i].distantCheck!=1)||(player[i].nearCheck!=1))){
+					do{
+						printf("Player %d, no other players in range!\n", i+1);
+						printf("Would you like to:\n");
+						printf("1 - Move to an adjacent slot\n");
+						printf("0 - Quit the game\n");
+						scanf("%d", &choice);
+					}while(choice != 1);
+					switch(choice)
+					{
+						case 1:
+							printf("What slot would you like to move to:\n");
+							if((board[player[i].row][player[i].column].up)!=NULL){
+								printf("u - for slot above\n");
+							}
+							if((board[player[i].row][player[i].column].down)!=NULL){
+								printf("d - for slot below\n");
+							}
+							if((board[player[i].row][player[i].column].left)!=NULL){
+								printf("l - for slot to the left\n");
+							}
+							if((board[player[i].row][player[i].column].right)!=NULL){
+								printf("r - for slot to the right\n?");
+							}
+							scanf("%c", &slotChoice);
+							do{
+								switch(slotChoice)
+								{
+									case 'u':
+										if((board[player[i].row][player[i].column].up)!=NULL){
+											MoveSlot(board, player[i], n, player[i].row+1, player[i].column);
+											break;
+										}
+										else{
+											printf("Incorrect value entered!\n");
+											slotChoice = -1;
+										}
+									case 'd':
+										if((board[player[i].row][player[i].column].down)!=NULL){
+											MoveSlot(board, player[i], n, player[i].row-1, player[i].column);
+											break;
+										}
+										else{
+											printf("Incorrect value entered!\n");
+											slotChoice = -1;
+										}
+									case 'l':
+										if((board[player[i].row][player[i].column].left)!=NULL){
+											MoveSlot(board, player[i], n, player[i].row, player[i].column-1);
+											break;
+										}
+										else{
+											printf("Incorrect value entered!\n");
+											slotChoice = -1;
+										}
+									case 'r':
+										if((board[player[i].row][player[i].column].right)!=NULL){
+											MoveSlot(board, player[i], n, player[i].row, player[i].column+1);
+											break;
+										}
+										else{
+											printf("Incorrect value entered!\n");
+											slotChoice = -1;
+										}
+									default: 
+										printf("Incorrect value entered!\n");
+										slotChoice = -1;
+										break;
+								}
+							}while(slotChoice==-1);
+							break;
+						case 0:
+							playerQuit(board, player[i]);
+							break;
+					}
+			}	
+			/*else{	//PRINT MOVE, ATTACK and QUIT
+				if(player[i].magicCheck||player[i].distantCheck||player[i].nearCheck)==NULL){
+					
+				}
+				}*/
+							//printf("%s has won the game! GG",player[i].name);
 			}
-		}
-	}
+		}	
+	}while(n-1>playersOut);
 	
 #if 0
 	/*	Asks the user the row and the column of the slot

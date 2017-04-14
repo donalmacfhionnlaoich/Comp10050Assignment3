@@ -266,12 +266,13 @@ struct slot * reachDesiredElement(int row, int column, struct slot * initialSlot
  * 	count: pointer to an integer representing the number of slots that are found to be at a required distance from the starting slot
  * 	explored: matrix indicating for each slot at row x and column y has been traversed (true) or not (false)
  */
-void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[BOARD_SIZE][BOARD_SIZE], int * playersFound, int *checker)
+void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot * foundSlots, int * count,  bool explored[BOARD_SIZE][BOARD_SIZE], int * playersFound, int * checker, int x)
 {
 
 	//printf("Test1 %d,%d\n", currSlot->row, currSlot->column);
 	//The base case: the current slot is at the required distance from the starting slot
 	if(currDist == reqDist){
+		
 		//printf("Test2 %d,%d\n", currSlot->row, currSlot->column);
 		//the current slot was not explored
 		//printf("Bool %d\n", explored[currSlot->row][currSlot->column]);
@@ -290,10 +291,11 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 			if(currSlot->occupied == true){
 				//printf("OCCUPIED\n");
 				for(int i =0; i<PLAYER_MAX;i++){
-					if(currSlot->playersPresent[i]==1){
+					if(currSlot->playersPresent[i]==1 && i!=x){
 						playersFound[i] = 1;
 						(*checker) ++;
-						//printf("Player %d can be attacked\n", i+1);
+						printf("Counter2 %d\n", *checker);
+						printf("Player %d can be attacked\n", i);
 					}
 				}
 			}
@@ -309,34 +311,39 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, struct slot *
 		if(currSlot->up != NULL){
 			//printf("Test3 %d,%d\n", currSlot->row, currSlot->column);
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the up slot
-			findSlots(reqDist, currDist +1,  currSlot->up, foundSlots, count, explored, playersFound, checker);
+			findSlots(reqDist, currDist +1,  currSlot->up, foundSlots, count, explored, playersFound, checker, x);
 		}
 		//if the current slot has the right slot != NULL (i.e. the slot is not in the last column)
 		if(currSlot->right != NULL){
 			//printf("Test4 %d,%d\n", currSlot->row, currSlot->column);
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the right slot
-			findSlots(reqDist, currDist +1,  currSlot->right, foundSlots, count, explored, playersFound, checker);
+			findSlots(reqDist, currDist +1,  currSlot->right, foundSlots, count, explored, playersFound, checker, x);
 		}
 		//if the current slot has the down slot != NULL (i.e. the slot is not in the last row)
 		if(currSlot->down != NULL){
 			//printf("Test5 %d,%d\n", currSlot->row, currSlot->column);
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the down slot
-			findSlots(reqDist, currDist +1,  currSlot->down, foundSlots, count, explored, playersFound, checker);
+			findSlots(reqDist, currDist +1,  currSlot->down, foundSlots, count, explored, playersFound, checker, x);
 		}
 		//if the current slot has the left slot != NULL (i.e. the slot is not in the first column)
 		if(currSlot->left != NULL){
 			//printf("Test6 %d,%d\n", currSlot->row, currSlot->column);
 			//invokes function find slots incrementing the current Distance (currDist) and setting the current slot to the left slot
-			findSlots(reqDist, currDist +1,  currSlot->left, foundSlots, count, explored, playersFound, checker);
+			findSlots(reqDist, currDist +1,  currSlot->left, foundSlots, count, explored, playersFound, checker, x);
 		}
 	}
 }
 
-int checkNearAttack(struct slot ** board, int row, int column)
+int checkNearAttack(struct slot ** board, int row, int column, int x)
 {
 	if((checkSlot(row,column,board))==true)
 	{
-		return true;
+		for(int i=0;i<PLAYER_MAX;i++){
+			if(board[row][column].playersPresent[i] ==1 && i!=x){
+				printf("Test 2 %d & %d\n", i, x);
+				return true;
+			}
+		}
 	}
 	if(row+1<BOARD_SIZE)
 	{
