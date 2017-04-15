@@ -23,7 +23,14 @@ int main(){
 
 	struct slot* currSlot = NULL;
 	struct slot *foundSlots = calloc((BOARD_SIZE*BOARD_SIZE), sizeof(struct slot));
-	bool explored[BOARD_SIZE][BOARD_SIZE] = {false};
+
+	//int explored[BOARD_SIZE][BOARD_SIZE] = {false};
+	bool *explored[BOARD_SIZE];
+	for(i=0;i<BOARD_SIZE;i++)
+	{
+		explored[i] = calloc(BOARD_SIZE,sizeof(bool));
+	}
+
 	int count =0;
 
 	//pointer to slot (0,0)
@@ -118,10 +125,10 @@ int main(){
 	int checkerD;
 	int x, j, choice;
 	char slotChoice;
-		//For loop to iterate through all players
+
+	//For loop to iterate through all players
 	for(x = 0; x<n;x++)
 	{
-		printf("PlAyEr %d Test\n", x);
 		/*PLAYER ROUND*/
 		//Checking that the player is alive
 		if(player[x].lifepoints>0)
@@ -131,11 +138,24 @@ int main(){
 			player[x].distantCheck = false;
 			player[x].magicCheck = false;
 
+			puts("Set checks to false");
 			//Resetting checkerD to false
 			checkerD = 0;
-			memset(&explored, 0, sizeof(bool) * BOARD_SIZE*BOARD_SIZE);
-			
+			//int explored[BOARD_SIZE][BOARD_SIZE] = {false};
 
+			for(int k=0;k<BOARD_SIZE;k++)
+			{
+				for(int l=0;l<BOARD_SIZE;l++)
+				{
+					board[k][l].explored = false;
+				}
+			}
+
+
+			//memset was causing errors
+			//memset(&explored, 0, sizeof(bool) * BOARD_SIZE*BOARD_SIZE);
+
+			puts("memset ran");
 			//Resetting playersFOund array to 0
 			for(i=0;i<PLAYER_MAX;i++)
 			{
@@ -144,26 +164,27 @@ int main(){
 
 			//Checking if a near attack is possible and assigning result to player's check.
 			player[x].nearCheck = checkNearAttack(board, player[x].row, player[x].column, x);
-			printf("NearAttack %d\n", player[x].nearCheck);
 
+			puts("nearcheck done");
 			//checking if a distant attack is possible
 			for(j=2;j<5;j++)
 			{
 				findSlots(j, 0,  &board[player[x].row][player[x].column], foundSlots, &count, explored, playersFound, &checkerD, x);
 			}
+			printf("Find slots %d completed.\n",x);
 			//Setting distant check to true if there is another player found
 			if(checkerD>0)	//1 because the player always finds them-self
 			{
 				player[x].distantCheck = true;
-				printf("DistAttack %d\n", player[x].distantCheck);
 			}
+			puts("Distant check ran");
 
 			//Checking if player can make a magic attack
 			if((player[x].smartness + player[x].magicskills)>150)
 			{
 				player[x].magicCheck = true;
-				printf("MagicAttack %d\n", player[x].magicCheck);
 			}
+			puts("magic check ran");
 
 		}
 	}
@@ -174,14 +195,16 @@ int main(){
 		{
 			if(player[i].lifepoints>0)
 			{
-				if(((player[i].magicCheck!=1)||(player[i].distantCheck!=1)||(player[i].nearCheck!=1))){
+				if(((player[i].magicCheck!=1)||(player[i].distantCheck!=1)||(player[i].nearCheck!=1)))
+				{
 					do{
 						printf("Player %d, no other players in range!\n", i+1);
 						printf("Would you like to:\n");
 						printf("1 - Move to an adjacent slot\n");
 						printf("0 - Quit the game\n");
+						fflush(stdin);
 						scanf("%d", &choice);
-					}while(choice != 1);
+					}while(choice != 1 && choice != 0);
 					switch(choice)
 					{
 						case 1:
@@ -193,13 +216,17 @@ int main(){
 								printf("d - for slot below\n");
 							}
 							if((board[player[i].row][player[i].column].left)!=NULL){
-								printf("l - for slot to the left\n");
+							printf("l - for slot to the left\n");
 							}
 							if((board[player[i].row][player[i].column].right)!=NULL){
 								printf("r - for slot to the right\n?");
 							}
-							scanf("%c", &slotChoice);
+							//fflush(stdin);
+							//scanf("%c", &slotChoice);
 							do{
+								fflush(stdin);
+								printf("Choice: ");
+								scanf("%c", &slotChoice);
 								switch(slotChoice)
 								{
 									case 'u':
@@ -208,7 +235,7 @@ int main(){
 											break;
 										}
 										else{
-											printf("Incorrect value entered!\n");
+											printf("Incorrect value entered! case u\n");
 											slotChoice = -1;
 										}
 									case 'd':
@@ -217,7 +244,7 @@ int main(){
 											break;
 										}
 										else{
-											printf("Incorrect value entered!\n");
+											printf("Incorrect value entered! case d\n");
 											slotChoice = -1;
 										}
 									case 'l':
@@ -226,7 +253,7 @@ int main(){
 											break;
 										}
 										else{
-											printf("Incorrect value entered!\n");
+											printf("Incorrect value entered! case l\n");
 											slotChoice = -1;
 										}
 									case 'r':
@@ -235,30 +262,40 @@ int main(){
 											break;
 										}
 										else{
-											printf("Incorrect value entered!\n");
+											printf("Incorrect value entered! case r\n");
 											slotChoice = -1;
 										}
-									default: 
-										printf("Incorrect value entered!\n");
+									default:
+										printf("Incorrect value entered! default\n");
 										slotChoice = -1;
 										break;
 								}
-							}while(slotChoice==-1);
+							}while(slotChoice==-1); //why??
 							break;
 						case 0:
 							playerQuit(board, player[i]);
 							break;
 					}
-			}	
-			/*else{	//PRINT MOVE, ATTACK and QUIT
-				if(player[i].magicCheck||player[i].distantCheck||player[i].nearCheck)==NULL){
-					
-				}
-				}*/
-							//printf("%s has won the game! GG",player[i].name);
+		}
+		/*else{	//PRINT MOVE, ATTACK and QUIT
+			if(player[i].magicCheck||player[i].distantCheck||player[i].nearCheck)==NULL){
+
 			}
-		}	
+			}*/
+						//printf("%s has won the game! GG",player[i].name);
+
+			}
+		}
 	}while(n-1>playersOut);
+
+
+	if(n>playersOut)
+	{
+
+
+
+	}
+
 	
 #if 0
 	/*	Asks the user the row and the column of the slot
