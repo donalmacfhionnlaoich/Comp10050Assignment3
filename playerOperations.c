@@ -8,6 +8,7 @@
 #include "crossfireOperations.h"
 #include "structs.h"
 #include "Prototypes.h"
+#include <stdio.h>
 
 void MoveSlot (struct slot ** board,struct player_type player, const int numOfPlayers, int row, int column)
 {
@@ -72,5 +73,75 @@ void playerQuit(struct slot ** board,struct player_type player)
 	player.column = -1;
 }
 
+/*void playerMoveChoice(struct slot ** board, struct player_type **player, char *slotChoice, int n, int i)
+{
+	printf("What slot would you like to move to:\n");
+								if((board[player.row][player.column].up)!=NULL){
+									printf("u - for slot above\n");
+								}
+								if((board[player.row][player.column].down)!=NULL){
+									printf("d - for slot below\n");
+								}
+								if((board[player.row][player.column].left)!=NULL){
+								printf("l - for slot to the left\n");
+								}
+								if((board[player.row][player.column].right)!=NULL){
+									printf("r - for slot to the right\n?");
+								}
+								//fflush(stdin);
+								//scanf("%c", &slotChoice);
+								do{
+									printf("Choice: ");
+									fflush(stdin);
+									scanf(" %c", &(*slotChoice));
+									switch(*slotChoice)
+									{
+										case 'u':
+											if((board[player.row][player.column].up)!=NULL){
+												MoveSlot(board, player, n, player.row+1, player.column);
+												break;
+											}
+											else{
+												printf("Incorrect value entered! case u\n");
+												*slotChoice = -1;
+												break;
+											}
+										case 'd':
+											if((board[player[i].row][player[i].column].down)!=NULL){
+												MoveSlot(board, player[i], n, player[i].row-1, player[i].column);
+												break;
+											}
+											else{
+												printf("Incorrect value entered! case d\n");
+												*slotChoice = -1;
+												break;
+											}
+										case 'l':
+											if((board[player[i].row][player[i].column].left)!=NULL){
+												MoveSlot(board, player[i], n, player[i].row, player[i].column-1);
+												break;
+											}
+											else{
+												printf("Incorrect value entered! case l\n");
+												*slotChoice = -1;
+												break;
+											}
+										case 'r':
+											if((board[player[i].row][player[i].column].right)!=NULL){
+												MoveSlot(board, player[i], n, player[i].row, player[i].column+1);
+												break;
+											}
+											else{
+												printf("Incorrect value entered! case r\n");
+												*slotChoice = -1;
+												break;
+											}
+										default:
+											printf("Incorrect value entered! default\n");
+											*slotChoice = -1;
+											break;
+									}
+								}while(slotChoice==-1); //why??
+}*/
 
 
