@@ -129,67 +129,15 @@ int main(){
 	int ind; //index
 
 	//For loop to iterate through all players
-	for(x = 0; x<n;x++)
+/*	for(x = 0; x<n;x++)
 	{
-		/*PLAYER ROUND*/
+		PLAYER ROUND*/
 		//Checking that the player is alive
-		if(player[x].lifepoints>0)
+		/*if(player[x].lifepoints>0)
 		{
-			//Resetting checks of possible atatcks to false
-			player[x].nearCheck = false;
-			player[x].distantCheck = false;
-			player[x].magicCheck = false;
-
-			puts("Set checks to false");
-			//Resetting checkerD to false
-			checkerD = 0;
-			//int explored[BOARD_SIZE][BOARD_SIZE] = {false};
-
-			for(int k=0;k<BOARD_SIZE;k++)
-			{
-				for(int l=0;l<BOARD_SIZE;l++)
-				{
-					board[k][l].explored = false;
-				}
-			}
-
-
-			//memset was causing errors
-			//memset(&explored, 0, sizeof(bool) * BOARD_SIZE*BOARD_SIZE);
-
-			puts("memset ran");
-			//Resetting playersFOund array to 0
-			for(i=0;i<PLAYER_MAX;i++)
-			{
-				playersFound[i]=0;
-			}
-
-			//Checking if a near attack is possible and assigning result to player's check.
-			player[x].nearCheck = checkNearAttack(board, player[x].row, player[x].column, x, playersFound);
-
-			puts("nearcheck done");
-			//checking if a distant attack is possible
-			for(j=2;j<5;j++)
-			{
-				findSlots(j, 0,  &board[player[x].row][player[x].column], foundSlots, &count, playersFound, &checkerD, x);
-			}
-			printf("Find slots %d completed.\n",x);
-			//Setting distant check to true if there is another player found
-			if(checkerD>0)	//1 because the player always finds them-self
-			{
-				player[x].distantCheck = true;
-			}
-			puts("Distant check ran");
-
-			//Checking if player can make a magic attack
-			if((player[x].smartness + player[x].magicskills)>150)
-			{
-				player[x].magicCheck = true;
-			}
-			puts("magic check ran");
-
+			playerCheck(board, player, &checkerD, x, playersFound);	//Setting player's capabilities
 		}
-	}
+	}*/
 
 
 	do
@@ -201,6 +149,9 @@ int main(){
 			printf("PLAYER %d",i);
 			if(player[i].lifepoints>0)	//If player is alive
 			{
+
+				playerCheck(board, player, &checkerD, i, playersFound);	//Setting player's capabilities
+
 				//If player cannot attack any other player.
 				if(((player[i].magicCheck!=1)&&(player[i].distantCheck!=1)&&(player[i].nearCheck!=1)))
 				{
@@ -215,6 +166,9 @@ int main(){
 					switch(choice)
 					{
 						case 1:
+							playerMoveChoice(board, player, &slotChoice, n, i);
+
+							/*
 							//playerMoveChoice( board, player, &slotChoice, n, i);
 							printf("What slot would you like to move to:\n");
 							if((board[player[i].row][player[i].column].up)!=NULL){
@@ -278,7 +232,7 @@ int main(){
 										slotChoice = -1;
 										break;
 								}
-							}while(slotChoice==-1); //why??
+							}while(slotChoice==-1); //why??*/
 							break;
 						case 0:
 							playerQuit(board, player[i]);
@@ -362,13 +316,13 @@ int main(){
 
 						case 3:
 							//Resetting playersFOund array to 0
-							for(i=0;i<PLAYER_MAX;i++)
+							for(j=0;j<PLAYER_MAX;j++)
 							{
-								playersFound[i]=0;
+								playersFound[j]=0;
 							}
 							for(j=2;j<5;j++)
 							{
-								findSlots(j, 0,  &board[player[x].row][player[x].column], foundSlots, &count, playersFound, &checkerD, x);
+								findSlots(j, 0,  &board[player[i].row][player[i].column], playersFound, &checkerD, i);
 							}
 							for(j=0;j<n;j++)
 							{
@@ -410,8 +364,9 @@ int main(){
 							break;
 
 						case 1:
+							playerMoveChoice(board, player, &slotChoice, n, i);
 							//playerMoveChoice( board, player, &slotChoice, n, i);
-							printf("What slot would you like to move to:\n");
+						/*	printf("What slot would you like to move to:\n");
 							if((board[player[i].row][player[i].column].up)!=NULL){
 								printf("u - for slot above\n");
 							}
@@ -473,7 +428,7 @@ int main(){
 										slotChoice = -1;
 										break;
 								}
-							}while(slotChoice==-1);
+							}while(slotChoice==-1);*/
 							break;
 						case 0:
 							playerQuit(board, player[i]);

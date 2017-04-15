@@ -23,7 +23,12 @@ void magicAttack(struct player_type *attacker, struct player_type *attacked);
 void city(struct player_type player);
 void hill(struct player_type player);
 
-void MoveSlot (struct slot ** board,struct player_type player, const int numOfPlayers, int row, int column);
+void MoveSlot (struct slot ** board,struct player_type * player, const int numOfPlayers, int row, int column, int i);
 void playerQuit(struct slot ** board,struct player_type player);
+
+void playerCheck(struct slot ** board, struct player_type * player, int * checkerD, int x, int * playersFound);
+
+void playerMoveChoice(struct slot ** board, struct player_type * player, char *slotChoice, int n, int i);
+
 
 #endif /* PROTOTYPES_H_ */
