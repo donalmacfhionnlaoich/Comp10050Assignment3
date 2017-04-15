@@ -14,6 +14,8 @@
 #include "structs.h"
 #include "Prototypes.h"
 
+int playersOut;
+
 int main(){
 
 	setbuf(stdout,NULL);	//Fix error with eclipse on Windows.
@@ -109,7 +111,7 @@ int main(){
 		}
 	}
 	printPlayersStatus(player, n, board);
-	int playersOut = 0;
+	playersOut = 0;
 	int playersFound[PLAYER_MAX] = {0};
 
 	/*for(i=2;i<5;i++)
@@ -235,13 +237,14 @@ int main(){
 							}while(slotChoice==-1); //why??*/
 							break;
 						case 0:
-							playerQuit(board, player[i]);
+							playerQuit(board, &player[i]);
 							break;
 					}
 				}
 				else if(((player[i].magicCheck==1)||(player[i].distantCheck==1)||(player[i].nearCheck==1)))
 				{
 					do{
+
 						//printf("Player %d, no other players in range!\n", i+1);
 						printf("Would you like to:\n");
 						if(player[i].magicCheck==1)
@@ -311,7 +314,7 @@ int main(){
 								scanf("%d", &choice);
 							}while(choice == i || player[choice].lifepoints<=0 || choice>=n || choice<0);
 							printf("Attacking %s(%d) with a magic attack.\n",player[choice].name,choice);
-							magicAttack( &player[i], &player[choice]); //first ard is attacker, second is attacked
+							magicAttack( &player[i], &player[choice], board); //first ard is attacker, second is attacked
 							break;
 
 						case 3:
@@ -336,7 +339,7 @@ int main(){
 								scanf("%d", &choice);
 							}while(choice>n || choice<0 || playersFound[choice]!=1);
 							printf("Attacking %s(%d) with distant attack.\n",player[choice].name,choice);
-							distantAttack( &player[i], &player[choice]);
+							distantAttack( &player[i], &player[choice], board);
 
 							break;
 
@@ -359,7 +362,7 @@ int main(){
 							}while(choice>n || choice<0 || playersFound[choice]!=1);
 
 							printf("Attacking %s(%d) with near attack.\n",player[choice].name,choice);
-							nearAttack( &player[i], &player[choice]);
+							nearAttack( &player[i], &player[choice], board);
 
 							break;
 
@@ -431,17 +434,16 @@ int main(){
 							}while(slotChoice==-1);*/
 							break;
 						case 0:
-							playerQuit(board, player[i]);
+							playerQuit(board, &player[i]);
 							break;
 					}
 				}
-		/*else{	//PRINT MOVE, ATTACK and QUIT
-			if(player[i].magicCheck||player[i].distantCheck||player[i].nearCheck)==NULL){
-
-			}
-			}*/
-						//printf("%s has won the game! GG",player[i].name);
-
+				//printf("n is %d & out is %d",n,playersOut);
+				if(n-1<=playersOut)
+				{
+					//printf("breaking");
+					break;
+				}
 			}
 		}
 	}while(n-1>playersOut);
@@ -449,9 +451,18 @@ int main(){
 
 	if(n>playersOut)
 	{
-
-
-
+		for(i=0;i<n;i++)
+		{
+			if(player[i].lifepoints>0)
+			{
+				printf("%s has won the game! GG",player[i].name);
+				break;
+			}
+		}
+	}
+	else
+	{
+		puts("It appears all players are dead. GG");
 	}
 
 	

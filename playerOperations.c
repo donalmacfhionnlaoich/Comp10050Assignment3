@@ -54,16 +54,16 @@ void MoveSlot (struct slot ** board,struct player_type * player, const int numOf
 	puts("done");
 }
 
-void playerQuit(struct slot ** board,struct player_type player)
+void playerQuit(struct slot ** board,struct player_type * player)
 {
-	board[player.row][player.column].playersPresent[player.id]=0;	//Removing player from current slot
-
+	board[player->row][player->column].playersPresent[player->id]=0;	//Removing player from current slot
+	extern int playersOut;
 	int i;
 	//Checking if their are any players in the slot.
 	for(i=0;i<PLAYER_MAX;i++)
 	{
 		//If a player is present, exit loop.
-		if(board[player.row][player.column].playersPresent[i]==1)
+		if(board[player->row][player->column].playersPresent[i]==1)
 		{
 			break;
 		}
@@ -71,12 +71,13 @@ void playerQuit(struct slot ** board,struct player_type player)
 	//After the for loop, if i = total number of players then no players are present in that slot. Set slot occupied to false.
 	if(i==PLAYER_MAX)
 	{
-		board[player.row][player.column].occupied = false;
+		board[player->row][player->column].occupied = false;
 	}
 
-	player.lifepoints = 0;
-	player.row = -1;
-	player.column = -1;
+	player->lifepoints = 0;
+	player->row = -1;
+	player->column = -1;
+	playersOut++;
 }
 
 void playerCheck(struct slot ** board, struct player_type * player, int * checkerD, int x, int * playersFound)

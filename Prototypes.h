@@ -16,15 +16,15 @@ void ogre(struct player_type *player, struct slot **board);
 void wizard(struct player_type *player, struct slot **board);
 void elf(struct player_type *player, struct slot **board);
 
-void nearAttack(struct player_type *attacker, struct player_type *attacked);
-void distantAttack(struct player_type *attacker, struct player_type *attacked);
-void magicAttack(struct player_type *attacker, struct player_type *attacked);
+void nearAttack(struct player_type *attacker, struct player_type *attacked, struct slot ** board);
+void distantAttack(struct player_type *attacker, struct player_type *attacked, struct slot ** board);
+void magicAttack(struct player_type *attacker, struct player_type *attacked, struct slot ** board);
 
 void city(struct player_type player);
 void hill(struct player_type player);
 
 void MoveSlot (struct slot ** board,struct player_type * player, const int numOfPlayers, int row, int column, int i);
-void playerQuit(struct slot ** board,struct player_type player);
+void playerQuit(struct slot ** board,struct player_type * player);
 
 void playerCheck(struct slot ** board, struct player_type * player, int * checkerD, int x, int * playersFound);
 
