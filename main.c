@@ -191,9 +191,9 @@ int main(){
 
 	do
 	{
-		for(int i=0;i<n;i++)
+		for(int i=0;i<n;i++)	//Loop through players
 		{
-			if(player[i].lifepoints>0)
+			if(player[i].lifepoints>0)	//If player is alive
 			{
 				if(((player[i].magicCheck!=1)||(player[i].distantCheck!=1)||(player[i].nearCheck!=1)))
 				{
@@ -224,9 +224,9 @@ int main(){
 							//fflush(stdin);
 							//scanf("%c", &slotChoice);
 							do{
-								fflush(stdin);
 								printf("Choice: ");
-								scanf("%c", &slotChoice);
+								fflush(stdin);
+								scanf(" %c", &slotChoice);
 								switch(slotChoice)
 								{
 									case 'u':
