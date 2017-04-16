@@ -37,6 +37,6 @@ void playerCheck(struct slot ** board, struct player_type * player, int * checke
 
 void playerInitialization(struct slot ** board, struct player_type * player,int i);
 
-
+void crossFire(struct slot **board, struct player_type * player, int n, int playersOut);
 
 #endif /* PROTOTYPES_H_ */

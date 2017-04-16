@@ -101,4 +101,5 @@ int checkSlot(int row, int column, struct slot ** board, int x, int * playersFou
 
 int checkNearAttack(struct slot ** board, int row, int column, int x, int * playersFound);
 
+
 //void playerMoveChoice(struct slot ** board, struct player_type **player, char *slotChoice, int n, int i);
