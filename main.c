@@ -113,154 +113,139 @@ int main(){
 				//If player cannot attack any other player.
 				if(((player[i].magicCheck!=1)&&(player[i].distantCheck!=1)&&(player[i].nearCheck!=1)))
 				{
-					do{
-						printf("Player %d, no other players in range!\n", i+1);
-						printf("Would you like to:\n");
-						printf("1 - Move to an adjacent slot\n");
-						printf("0 - Quit the game\n");
-						fflush(stdin);
-						scanf("%d", &choice);
-					}while(choice != 1 && choice != 0);
-					switch(choice)
-					{
-						case 1:
-							playerMoveChoice(board, player, &slotChoice, n, i);
-							break;
-						case 0:
-							playerQuit(board, &player[i]);
-							break;
-					}
+					printf("Player %d, no other players in range!\n", i+1);
 				}
-				else if(((player[i].magicCheck==1)||(player[i].distantCheck==1)||(player[i].nearCheck==1)))
-				{
-					do{
-						printf("Would you like to:\n");
-						if(player[i].magicCheck==1)
-						{
-							puts("4 - Attack a player with a magic attack");
-						}
-						if(player[i].distantCheck==1)
-						{
-							puts("3 - Attack a distant player");
-						}
-						if(player[i].nearCheck==1)
-						{
-							puts("2 - Attack a nearby player");
-						}
-						printf("1 - Move to an adjacent slot\n");
-						printf("0 - Quit the game\n");
-						fflush(stdin);
-						scanf("%d", &choice);
-						allowedChoice = 0;
-						//Checking input if allowed for attacks.
-						switch(choice)
-						{
-							case 2:
-								if(player[i].nearCheck==1)
-								{
-									allowedChoice = 1;
-								}
-								else
-								{
-									allowedChoice = 0;
-								}
-								break;
-							case 3:
-								if(player[i].distantCheck==1)
-								{
-									allowedChoice = 1;
-								}
-								else
-								{
-									allowedChoice = 0;
-								}
-								break;
-							case 4:
-								if(player[i].magicCheck==1)
-								{
-									allowedChoice = 1;
-								}
-								else
-								{
-									allowedChoice = 0;
-								}
-								break;
-						}
-					}while(choice != 1 && choice != 0 && allowedChoice !=1 );
+				
+				do{
+					printf("Would you like to:\n");
+					if(player[i].magicCheck==1)
+					{
+						puts("4 - Attack a player with a magic attack");
+					}
+					if(player[i].distantCheck==1)
+					{
+						puts("3 - Attack a distant player");
+					}
+					if(player[i].nearCheck==1)
+					{
+						puts("2 - Attack a nearby player");
+					}
+					printf("1 - Move to an adjacent slot\n");
+					printf("0 - Quit the game\n");
+					fflush(stdin);
+					scanf("%d", &choice);
+					allowedChoice = 0;
+					//Checking input if allowed for attacks.
 					switch(choice)
 					{
-						case 4:
-							for(ind = 0;ind<n;ind++)
-							{
-								if(player[ind].lifepoints>0 && ind != i)
-								{
-									printf("%s can be attacked. ID = %d\n",player[ind].name, ind);
-								}
-							}
-							do{
-								printf("Enter the ID number of the player you wish to attack: ");
-								scanf("%d", &choice);
-							}while(choice == i || player[choice].lifepoints<=0 || choice>=n || choice<0);
-							printf("Attacking %s(%d) with a magic attack.\n",player[choice].name,choice);
-							magicAttack( &player[i], &player[choice], board); //first ard is attacker, second is attacked
-							break;
-
-						case 3:
-							//Resetting playersFOund array to 0
-							for(j=0;j<PLAYER_MAX;j++)
-							{
-								playersFound[j]=0;
-							}
-							for(j=2;j<5;j++)
-							{
-								findSlots(j, 0,  &board[player[i].row][player[i].column], playersFound, &checkerD, i);
-							}
-							for(j=0;j<n;j++)
-							{
-								if(playersFound[j]==1)
-								{
-									printf("%s can be attacked. ID = %d\n",player[j].name, j);
-								}
-							}
-							do{
-								printf("Enter the ID number of the player you wish to attack: ");
-								scanf("%d", &choice);
-							}while(choice>n || choice<0 || playersFound[choice]!=1);
-							printf("Attacking %s(%d) with distant attack.\n",player[choice].name,choice);
-							distantAttack( &player[i], &player[choice], board);
-
-							break;
-
 						case 2:
-							for(k=0;k<PLAYER_MAX;k++)
+							if(player[i].nearCheck==1)
 							{
-								playersFound[k]=0;
+								allowedChoice = 1;
 							}
-							checkNearAttack(board, player[i].row, player[i].column, i, playersFound);
-							for(j=0;j<n;j++)
+							else
 							{
-								if(playersFound[j]==1)
-								{
-									printf("%s can be attacked. ID = %d\n",player[j].name, j);
-								}
+								allowedChoice = 0;
+								puts("\nIncorrect number entered!\n");
 							}
-							do{
-								printf("Enter the ID number of the player you wish to attack: ");
-								scanf("%d", &choice);
-							}while(choice>n || choice<0 || playersFound[choice]!=1);
-
-							printf("Attacking %s (ID: %d) with near attack.\n",player[choice].name,choice);
-							nearAttack( &player[i], &player[choice], board);
-
 							break;
-
-						case 1:
-							playerMoveChoice(board, player, &slotChoice, n, i);
+						case 3:
+							if(player[i].distantCheck==1)
+							{
+								allowedChoice = 1;
+							}
+							else
+							{
+								allowedChoice = 0;
+								puts("\nIncorrect number entered!\n");
+							}
 							break;
-						case 0:
-							playerQuit(board, &player[i]);
+						case 4:
+							if(player[i].magicCheck==1)
+							{
+								allowedChoice = 1;
+							}
+							else
+							{
+								allowedChoice = 0;
+								puts("\nIncorrect number entered!\n");
+							}
 							break;
 					}
+				}while(choice != 1 && choice != 0 && allowedChoice !=1 );
+				switch(choice)
+				{
+					case 4:
+						for(ind = 0;ind<n;ind++)
+						{
+							if(player[ind].lifepoints>0 && ind != i)
+							{
+								printf("%s can be attacked. ID = %d\n",player[ind].name, ind);
+							}
+						}
+						do{
+							printf("Enter the ID number of the player you wish to attack: ");
+							scanf("%d", &choice);
+						}while(choice == i || player[choice].lifepoints<=0 || choice>=n || choice<0);
+						printf("Attacking %s(%d) with a magic attack.\n",player[choice].name,choice);
+						magicAttack( &player[i], &player[choice], board); //first ard is attacker, second is attacked
+						break;
+
+					case 3:
+						//Resetting playersFOund array to 0
+						for(j=0;j<PLAYER_MAX;j++)
+						{
+							playersFound[j]=0;
+						}
+						for(j=2;j<5;j++)
+						{
+							findSlots(j, 0,  &board[player[i].row][player[i].column], playersFound, &checkerD, i);
+						}
+						for(j=0;j<n;j++)
+						{
+							if(playersFound[j]==1)
+							{
+								printf("%s can be attacked. ID = %d\n",player[j].name, j);
+							}
+						}
+						do{
+							printf("Enter the ID number of the player you wish to attack: ");
+							scanf("%d", &choice);
+						}while(choice>n || choice<0 || playersFound[choice]!=1);
+						printf("Attacking %s(%d) with distant attack.\n",player[choice].name,choice);
+						distantAttack( &player[i], &player[choice], board);
+
+						break;
+
+					case 2:
+						for(k=0;k<PLAYER_MAX;k++)
+						{
+							playersFound[k]=0;
+						}
+						checkNearAttack(board, player[i].row, player[i].column, i, playersFound);
+						for(j=0;j<n;j++)
+						{
+							if(playersFound[j]==1)
+							{
+								printf("%s can be attacked. ID = %d\n",player[j].name, j);
+							}
+						}
+						do{
+							printf("Enter the ID number of the player you wish to attack: ");
+							scanf("%d", &choice);
+						}while(choice>n || choice<0 || playersFound[choice]!=1);
+
+						printf("Attacking %s (ID: %d) with near attack.\n",player[choice].name,choice);
+						nearAttack( &player[i], &player[choice], board);
+
+						break;
+
+					case 1:
+						playerMoveChoice(board, player, &slotChoice, n, i);
+						break;
+					case 0:
+						playerQuit(board, &player[i]);
+						break;
 				}
 				if(n-1<=playersOut)
 				{
