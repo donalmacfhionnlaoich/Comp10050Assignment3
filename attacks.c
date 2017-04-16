@@ -37,9 +37,10 @@ void nearAttack(struct player_type *attacker, struct player_type *attacked, stru
 
 void distantAttack(struct player_type *attacker, struct player_type *attacked, struct slot ** board)
 {
+	float x = attacker->strength;
 	if(attacker->dexterity > attacked->dexterity)		//If the attacked players strength is less than or equal to 70 then the attacked player gets half
 	{									//of their strength subtracted from their life points.
-		attacked->lifepoints -= (0.3 * attacker->strength);
+		attacked->lifepoints -= (0.3 * x);
 		if(attacked->lifepoints<=0)
 		{
 			printf("%s, player %d, has been killed by %s, player %d, and has been removed from play.\n",attacked->name,attacked->id,attacker->name,attacker->id);
