@@ -113,7 +113,7 @@ void playerCheck(struct slot ** board, struct player_type * player, int * checke
 	//Checking if a near attack is possible and assigning result to player's check.
 	player[x].nearCheck = checkNearAttack(board, player[x].row, player[x].column, x, playersFound);
 
-	puts("nearcheck done");
+	printf("nearcheck done %d\n", player[x].nearCheck);
 	//checking if a distant attack is possible
 	for(int i=2;i<5;i++)
 	{
@@ -121,7 +121,7 @@ void playerCheck(struct slot ** board, struct player_type * player, int * checke
 	}
 	printf("Find slots %d completed.\n",x);
 	//Setting distant check to true if there is another player found
-	if(checkerD>0)	//1 because the player always finds them-self
+	if((*checkerD)>0)	//1 because the player always finds them-self
 	{
 		player[x].distantCheck = true;
 	}
@@ -161,7 +161,7 @@ void playerMoveChoice(struct slot ** board, struct player_type * player, char *s
 		switch(*slotChoice)
 		{
 			case 'd':
-				if((board[player[i].row][player[i].column].up)!=NULL){
+				if((board[player[i].row][player[i].column].down)!=NULL){
 					puts("Calling move slot");
 					printf("Original: (%d,%d)\n",player[i].row,player[i].column);
 					MoveSlot(board, player, n, player[i].row+1, player[i].column, i);
@@ -175,7 +175,7 @@ void playerMoveChoice(struct slot ** board, struct player_type * player, char *s
 					break;
 				}
 			case 'u':
-				if((board[player[i].row][player[i].column].down)!=NULL){
+				if((board[player[i].row][player[i].column].up)!=NULL){
 					puts("Calling move slot");
 					printf("Original: (%d,%d)\n",player[i].row,player[i].column);
 					MoveSlot(board, player, n, player[i].row-1, player[i].column, i);

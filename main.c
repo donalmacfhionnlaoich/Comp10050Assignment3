@@ -125,7 +125,7 @@ int main(){
 	}*/
 	//printPlayersStatus(player, n, board);
 	int checkerD;
-	int x, j, choice;
+	int x, j, k, choice;
 	char slotChoice;
 	int allowedChoice;
 	int ind; //index
@@ -344,7 +344,7 @@ int main(){
 							break;
 
 						case 2:
-							for(i=0;i<PLAYER_MAX;i++)
+							for(k=0;k<PLAYER_MAX;k++)
 							{
 								playersFound[i]=0;
 							}
