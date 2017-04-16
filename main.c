@@ -76,39 +76,7 @@ int main(){
 	puts("There are 4 types of player: Elf, Human, Ogre and Wizard.");	//Giving information to user on the possible types of player_type and name specs.
 	for(unsigned i=0; i<n; i++)
 	{
-		printf("\nEnter Player %d's name: ", i+1);
-		scanf("%19s", player[i].name);	//Ensuring the maximum of characters of name is at most 19 so that there is one space for the null terminator.
-		printf("\n----------Enter Player %d's type---------\n", i+1);
-		printf("1 - Human, 2 - Ogre, 3 - Wizard, 4 - Elf:\n");
-		scanf("%u", &typeNum);		// User input for player type
-		while(typeNum < 1 || typeNum > 4)
-		{	// Loops while entered digit is not 1-4
-			puts("Sorry but you must enter a number between 1 & 4:\n");
-			scanf("%u", &typeNum);
-		}
-		player[i].lifepoints = 100.0;		// Sets everybody's LP's too 100.0 as stated
-											// Must be floating point for attack calculations
-		player[i].id = i;
-		/* Switch that copies player's type and respective capabilities to each struct member */
-		switch(typeNum - 1)
-		{
-			case humanType:
-				strcpy(player[i].type, "Human");
-				human(&player[i], board);		// Elf function (see playerTypes.c)
-				break;
-			case ogreType:
-				strcpy(player[i].type, "Ogre");
-				ogre(&player[i], board);		// Human function (see playerTypes.c)
-				break;
-			case wizardType:
-				strcpy(player[i].type, "Wizard");
-				wizard(&player[i], board);		// Ogre function (see playerTypes.c)
-				break;
-			case elfType:
-				strcpy(player[i].type, "Elf");
-				elf(&player[i], board);		// Wizard function (see playerTypes.c)
-				break;
-		}
+		playerInitialization(board, player, i);
 	}
 	playersOut = 0;
 	int playersFound[PLAYER_MAX] = {0};
@@ -117,19 +85,21 @@ int main(){
 	char slotChoice;
 	int allowedChoice;
 	int ind, roundNum=0; //index
+	int playerRound;
 
 	do
 	{	printPlayersStatus(player, n, board);
 		printf("\n\n-----ROUND %d-----\n", roundNum+1);
+		playerRound = 0;
 		for(int i=0;i<n;i++)	//Loop through players
 		{
-			printf("\nPLAYER %d / OF %d\n\n",i+1, n-playersOut);
-			if(playersOut>0){
-				printf("%d player(s) died/left!\n\n",playersOut);
-			}
+			playerRound++;
 			if(player[i].lifepoints>0)	//If player is alive
 			{
-
+				printf("\nPLAYER %d / OF %d\n\n",playerRound, n-playersOut);
+				if(playersOut>0){
+					printf("%d player(s) died/left!\n\n",playersOut);
+				}
 				playerCheck(board, player, &checkerD, i, playersFound);	//Setting player's capabilities
 
 				//If player cannot attack any other player.
@@ -288,6 +258,10 @@ int main(){
 				{
 					break;
 				}
+			}
+			else
+			{
+				playerRound--; //Decrementing playerRound number so that correct number is displayed
 			}
 		}
 		roundNum++;

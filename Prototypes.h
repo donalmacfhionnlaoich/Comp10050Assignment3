@@ -35,6 +35,7 @@ void playerQuit(struct slot ** board,struct player_type * player);
 /* FUNCTION TO CHECK POSSIBILITIES FOR NEAR, DISTANT & MAGIC ATTACKS  */
 void playerCheck(struct slot ** board, struct player_type * player, int * checkerD, int x, int * playersFound);
 
+void playerInitialization(struct slot ** board, struct player_type * player,int i);
 
 
 
