@@ -21,19 +21,7 @@ int main(){
 	setbuf(stdout,NULL);	//Fix error with eclipse on Windows.
 	srand(time(NULL));
 
-	int row, column, i;
-
-	struct slot* currSlot = NULL;
-	struct slot *foundSlots = calloc((BOARD_SIZE*BOARD_SIZE), sizeof(struct slot));
-
-	//int explored[BOARD_SIZE][BOARD_SIZE] = {false};
-	bool *explored[BOARD_SIZE];
-	for(i=0;i<BOARD_SIZE;i++)
-	{
-		explored[i] = calloc(BOARD_SIZE,sizeof(bool));
-	}
-
-	int count =0;
+	int i;
 
 	//pointer to slot (0,0)
 	struct slot *upLeft;
@@ -59,10 +47,12 @@ int main(){
 	//Creates the board
 	createBoard(board,BOARD_SIZE,&upLeft, &upRight, &downLeft, &downRight);
 
-	unsigned int n, typeNum;
+	unsigned int n;
+	//Instructing user and getting input.
 	printf("\nThere can be 2-%d players in the game.\n", PLAYER_MAX);
 	printf("How many players are there: ");
 	scanf("%u", &n);		// Stores number of players in n
+
 	/* Loop which ensures players number between 1 and defined player max (6) */
 	while(n<2 || n>PLAYER_MAX)
 	{
@@ -70,37 +60,55 @@ int main(){
 		scanf("%u", &n);	// Re-loops if incorrect number is entered
 	}
 
+	//Creating and initializing player struct for the number of players entered.
 	struct player_type *player;
 	player = calloc(n,sizeof(struct player_type));
+
+
 	puts("\nA player's name can have a maximum length of 19 characters.");
 	puts("There are 4 types of player: Elf, Human, Ogre and Wizard.");	//Giving information to user on the possible types of player_type and name specs.
 	for(unsigned i=0; i<n; i++)
 	{
+		//Function to get player details and initialize the player struct correctly
 		playerInitialization(board, player, i);
 	}
+
+	//Global int to hold the number players who've been put out of the game by quiting/dying
 	playersOut = 0;
+
+	//Array to hold the number of players who've left the game
 	int playersFound[PLAYER_MAX] = {0};
+
+	//Variable used in checking if a player can perform a distant attack
 	int checkerD;
-	int x, j, k, choice;
+
+	//Index variables and user choice variable
+	int j, k, choice;
 	char slotChoice;
+
+	//Variable used to check if the choice made by the user is allowed
 	int allowedChoice;
 	int ind, roundNum=0; //index
+
+	//Variable to hold which turn it is out of the possible players turns
 	int playerRound;
 
 	do
-	{	printPlayersStatus(player, n, board);
+	{
+		printPlayersStatus(player, n, board);
 		printf("\n\n-----ROUND %d-----\n", roundNum+1);
 		playerRound = 0;
 		for(int i=0;i<n;i++)	//Loop through players
 		{
 			playerRound++;
-			if(player[i].lifepoints>0)	//If player is alive
+			if(player[i].lifepoints>0)	//If player is alive allow them to take their turn
 			{
 				printf("\nPLAYER %d / OF %d\n\n",playerRound, n-playersOut);
 				if(playersOut>0){
 					printf("%d player(s) died/left!\n\n",playersOut);
 				}
-				playerCheck(board, player, &checkerD, i, playersFound);	//Setting player's capabilities
+
+				playerCheck(board, player, &checkerD, i, playersFound);	//Setting attack player's capabilities
 
 				//If player cannot attack any other player.
 				if(((player[i].magicCheck!=1)&&(player[i].distantCheck!=1)&&(player[i].nearCheck!=1)))
