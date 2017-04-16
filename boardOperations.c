@@ -47,11 +47,11 @@ void createBoard(struct slot **board,int boardSize, struct slot **upLeft, struct
 				}
 			else if(x == 1){
 			strcpy(board[i][j].slot_name, "City");
-		}
-		else if(x == 2){
-		strcpy(board[i][j].slot_name, "Hill");
+			}
+			else if(x == 2){
+			strcpy(board[i][j].slot_name, "Hill");
 			//Occupied int and playersPresent array all set to 0 by default because of calloc
-		}
+			}
 	}
 
 	//It sets up the adjacent slots for the slots that are
@@ -172,9 +172,6 @@ void findSlots(int reqDist, int currDist,  struct slot * currSlot, int * players
 						(*checker) ++;		//increment checkerD
 					}
 				}
-			}
-			else{
-				//printf("NOT OCCUPIED\n");
 			}
 		}
 	}
