@@ -7,11 +7,11 @@
 
 #ifndef STRUCTS_H_
 #define STRUCTS_H_
-
+ 
+/* PLAYER STRUCT */
 struct player_type {
 	char name[20];
 	char type[20];
-	char currentSlot[20];	//Is this needed???
 	float lifepoints;
 	int smartness;
 	int strength;

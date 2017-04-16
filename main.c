@@ -60,7 +60,7 @@ int main(){
 	createBoard(board,BOARD_SIZE,&upLeft, &upRight, &downLeft, &downRight);
 
 	unsigned int n, typeNum;
-	printf("There can be 2-%d players in the game.\n", PLAYER_MAX);
+	printf("\nThere can be 2-%d players in the game.\n", PLAYER_MAX);
 	printf("How many players are there: ");
 	scanf("%u", &n);		// Stores number of players in n
 	/* Loop which ensures players number between 1 and defined player max (6) */
@@ -110,45 +110,23 @@ int main(){
 				break;
 		}
 	}
-	printPlayersStatus(player, n, board);
 	playersOut = 0;
 	int playersFound[PLAYER_MAX] = {0};
-
-	/*for(i=2;i<5;i++)
-	{
-		findSlots(i, 0,  &board[player[0].row][player[0].column], foundSlots, &count, explored, playersFound);
-		printf("%d Iteration\n", i-1);
-	}
-	for(i=0;i<PLAYER_MAX;i++)
-	{
-		printf("Player %d was found: %d\n", i, playersFound[i]);
-	}*/
-	//printPlayersStatus(player, n, board);
 	int checkerD;
 	int x, j, k, choice;
 	char slotChoice;
 	int allowedChoice;
-	int ind; //index
-
-	//For loop to iterate through all players
-/*	for(x = 0; x<n;x++)
-	{
-		PLAYER ROUND*/
-		//Checking that the player is alive
-		/*if(player[x].lifepoints>0)
-		{
-			playerCheck(board, player, &checkerD, x, playersFound);	//Setting player's capabilities
-		}
-	}*/
-
+	int ind, roundNum=0; //index
 
 	do
-	{
+	{	printPlayersStatus(player, n, board);
+		printf("\n\n-----ROUND %d-----\n", roundNum+1);
 		for(int i=0;i<n;i++)	//Loop through players
 		{
-			printPlayersStatus(player, n, board);
-
-			printf("PLAYER %d",i);
+			printf("\nPLAYER %d / OF %d\n\n",i+1, n-playersOut);
+			if(playersOut>0){
+				printf("%d player(s) died/left!\n\n",playersOut);
+			}
 			if(player[i].lifepoints>0)	//If player is alive
 			{
 
@@ -169,72 +147,6 @@ int main(){
 					{
 						case 1:
 							playerMoveChoice(board, player, &slotChoice, n, i);
-
-							/*
-							//playerMoveChoice( board, player, &slotChoice, n, i);
-							printf("What slot would you like to move to:\n");
-							if((board[player[i].row][player[i].column].up)!=NULL){
-								printf("u - for slot above\n");
-							}
-							if((board[player[i].row][player[i].column].down)!=NULL){
-								printf("d - for slot below\n");
-							}
-							if((board[player[i].row][player[i].column].left)!=NULL){
-							printf("l - for slot to the left\n");
-							}
-							if((board[player[i].row][player[i].column].right)!=NULL){
-								printf("r - for slot to the right\n?");
-							}
-							//fflush(stdin);
-							//scanf("%c", &slotChoice);
-							do{
-								printf("Choice: ");
-								fflush(stdin);
-								scanf(" %c", &slotChoice);
-								switch(slotChoice)
-								{
-									case 'u':
-										if((board[player[i].row][player[i].column].up)!=NULL){
-											MoveSlot(board, player[i], n, player[i].row+1, player[i].column);
-											break;
-										}
-										else{
-											printf("Incorrect value entered! case u\n");
-											slotChoice = -1;
-										}
-									case 'd':
-										if((board[player[i].row][player[i].column].down)!=NULL){
-											MoveSlot(board, player[i], n, player[i].row-1, player[i].column);
-											break;
-										}
-										else{
-											printf("Incorrect value entered! case d\n");
-											slotChoice = -1;
-										}
-									case 'l':
-										if((board[player[i].row][player[i].column].left)!=NULL){
-											MoveSlot(board, player[i], n, player[i].row, player[i].column-1);
-											break;
-										}
-										else{
-											printf("Incorrect value entered! case l\n");
-											slotChoice = -1;
-										}
-									case 'r':
-										if((board[player[i].row][player[i].column].right)!=NULL){
-											MoveSlot(board, player[i], n, player[i].row, player[i].column+1);
-											break;
-										}
-										else{
-											printf("Incorrect value entered! case r\n");
-											slotChoice = -1;
-										}
-									default:
-										printf("Incorrect value entered! default\n");
-										slotChoice = -1;
-										break;
-								}
-							}while(slotChoice==-1); //why??*/
 							break;
 						case 0:
 							playerQuit(board, &player[i]);
@@ -244,8 +156,6 @@ int main(){
 				else if(((player[i].magicCheck==1)||(player[i].distantCheck==1)||(player[i].nearCheck==1)))
 				{
 					do{
-
-						//printf("Player %d, no other players in range!\n", i+1);
 						printf("Would you like to:\n");
 						if(player[i].magicCheck==1)
 						{
@@ -361,93 +271,27 @@ int main(){
 								scanf("%d", &choice);
 							}while(choice>n || choice<0 || playersFound[choice]!=1);
 
-							printf("Attacking %s(%d) with near attack.\n",player[choice].name,choice);
+							printf("Attacking %s (ID: %d) with near attack.\n",player[choice].name,choice);
 							nearAttack( &player[i], &player[choice], board);
 
 							break;
 
 						case 1:
 							playerMoveChoice(board, player, &slotChoice, n, i);
-							//playerMoveChoice( board, player, &slotChoice, n, i);
-						/*	printf("What slot would you like to move to:\n");
-							if((board[player[i].row][player[i].column].up)!=NULL){
-								printf("u - for slot above\n");
-							}
-							if((board[player[i].row][player[i].column].down)!=NULL){
-								printf("d - for slot below\n");
-							}
-							if((board[player[i].row][player[i].column].left)!=NULL){
-							printf("l - for slot to the left\n");
-							}
-							if((board[player[i].row][player[i].column].right)!=NULL){
-								printf("r - for slot to the right\n?");
-							}
-							//fflush(stdin);
-							//scanf("%c", &slotChoice);
-							do{
-								printf("Choice: ");
-								fflush(stdin);
-								scanf(" %c", &slotChoice);
-								switch(slotChoice)
-								{
-									case 'u':
-										if((board[player[i].row][player[i].column].up)!=NULL){
-											MoveSlot(board, player[i], n, player[i].row+1, player[i].column);
-											break;
-										}
-										else{
-											printf("Incorrect value entered! case u\n");
-											slotChoice = -1;
-										}
-									case 'd':
-										if((board[player[i].row][player[i].column].down)!=NULL){
-											MoveSlot(board, player[i], n, player[i].row-1, player[i].column);
-											break;
-										}
-										else{
-											printf("Incorrect value entered! case d\n");
-											slotChoice = -1;
-										}
-									case 'l':
-										if((board[player[i].row][player[i].column].left)!=NULL){
-											MoveSlot(board, player[i], n, player[i].row, player[i].column-1);
-											break;
-										}
-										else{
-											printf("Incorrect value entered! case l\n");
-											slotChoice = -1;
-										}
-									case 'r':
-										if((board[player[i].row][player[i].column].right)!=NULL){
-											MoveSlot(board, player[i], n, player[i].row, player[i].column+1);
-											break;
-										}
-										else{
-											printf("Incorrect value entered! case r\n");
-											slotChoice = -1;
-										}
-									default:
-										printf("Incorrect value entered! default\n");
-										slotChoice = -1;
-										break;
-								}
-							}while(slotChoice==-1);*/
 							break;
 						case 0:
 							playerQuit(board, &player[i]);
 							break;
 					}
 				}
-				//printf("n is %d & out is %d",n,playersOut);
 				if(n-1<=playersOut)
 				{
-					//printf("breaking");
 					break;
 				}
 			}
 		}
+		roundNum++;
 	}while(n-1>playersOut);
-
 
 	if(n>playersOut)
 	{
@@ -455,67 +299,14 @@ int main(){
 		{
 			if(player[i].lifepoints>0)
 			{
-				printf("%s has won the game! GG",player[i].name);
+				printf("\n%s has won the game! GG\n\n",player[i].name);
 				break;
 			}
 		}
 	}
 	else
 	{
-		puts("It appears all players are dead. GG");
+		puts("\nIt appears all players are dead. GG\n\n");
 	}
-
-	
-#if 0
-	/*	Asks the user the row and the column of the slot
-		s/he wants to retrieve from the board.
-		Note that the user needs to know the size of the board to input
-		the correct row and column of the slot s/he wants to retrieve */
-	getDesiredElement(BOARD_SIZE, &row,&column);
-
-	//Finds the slot
-
-
-	/*If the the required slot is closer to the down-right
-	 * corner of the board the search starts from downRight,
-	 * which points to slot at position (boardSize-1, boarSize -1)*/
-	if(row >= BOARD_SIZE/2){
-		if(column >= BOARD_SIZE/2)
-			currSlot = reachDesiredElement(row,column,downRight);
-		else
-		/*If the the required slot is closer to the down-left
-		* corner of the board the search starts from downLeft,
-		* which points to slot at position (boardSize-1, 0)*/
-			currSlot = reachDesiredElement(row,column,downLeft);
-	} else {
-		/*If the the required slot is closer to the up-right
-		* corner of the board the search starts from upRight,
-		* which points to slot at position (0, boarSize -1)*/
-		if(column >= BOARD_SIZE/2)
-			currSlot = reachDesiredElement(row,column, upRight);
-		/*If the the required slot is closer to the up-left
-		* corner of the board the search starts from upLeft,
-		* which points to slot at position (0, 0)*/
-		else currSlot = reachDesiredElement(row,column,upLeft);
-	}
-
-	for(int i=0; i<BOARD_SIZE; i++){
-		for(int j=0; j<BOARD_SIZE;j++){
-			explored[i][j] = false;
-		}
-	}
-
-	foundSlots = malloc(BOARD_SIZE * BOARD_SIZE * sizeof(struct slot ));
-	printf("\n\nFunction findSlotsinvoked:\n");
-
-	if(currSlot!= NULL){
-		//invokes function findSlots. The required distance is a constant
-		//However you can reuse this function providing as input any arbitrary distance
-		findSlots(REQ_DISTANCE, 0, currSlot, foundSlots, &count, explored);
-		for(int i=0; i<count; i++){
-			printf("(%d, %d)-> ",foundSlots[i].row, foundSlots[i].column);
-		}
-	}
-#endif
 	return 0;
 }

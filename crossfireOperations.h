@@ -83,16 +83,6 @@ void getDesiredElement(int maxsize, int * row, int * col);
  */
 void createBoard(struct slot **board, int boardSize, struct slot **upLeft, struct slot **upRight, struct slot **downLeft, struct slot **downRight);
 
-/*
- * This function traverses the board to find a slot at a predefined
- * position (row, column)
- * Parameters:
- * 	row: the row in which the desired slot is located
- * 	column: the column in which the desired slot is located
- * 	initialSlot: the slot from which the slot search should start
- */
-struct slot *  reachDesiredElement(int row, int column, struct slot * initialSlot);
-
 
 /*
  * The recursive function that traverses the board to find the slots at a predefined

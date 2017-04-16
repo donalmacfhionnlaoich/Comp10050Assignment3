@@ -12,18 +12,14 @@
 
 void MoveSlot (struct slot ** board,struct player_type * player, const int numOfPlayers, int row, int column, int i)
 {
-	printf("Original: (%d,%d)\n",player[i].row,player[i].column);
 	int tempRow = player[i].row;
 	int tempColumn = player[i].column;
 	player[i].row = row;
 	player[i].column = column;
-	printf("Changed: (%d,%d)\n",player[i].row,player[i].column);
-	puts("Basics done");
 	board[row][column].occupied = true;
 	board[row][column].playersPresent[player[i].id]=1;	//Indicating user is present in slot by setting the corresponding index in the array to their id = 1;
 
 	board[tempRow][tempColumn].playersPresent[player[i].id]=0;
-	puts("Prsence removed");
 	int k;
 	//Checking if their are any players in the slot.
 	for(k=0;k<numOfPlayers;k++)
@@ -34,7 +30,6 @@ void MoveSlot (struct slot ** board,struct player_type * player, const int numOf
 			break;
 		}
 	}
-	puts("previous slot checked");
 	//After the for loop, if k = total number of players then no players are present in that slot. Set slot occupied to false.
 	if(k==numOfPlayers)
 	{
@@ -43,15 +38,12 @@ void MoveSlot (struct slot ** board,struct player_type * player, const int numOf
 
 	if(board[player[i].row][player[i].column].slot_type == cityType)
 	{
-		puts("calling city");
 		city(player[i]);
 	}
 	else if(board[player[i].row][player[i].column].slot_type == hillType)
 	{
-		puts("Calling hill");
 		hill(player[i]);
 	}
-	puts("done");
 }
 
 void playerQuit(struct slot ** board,struct player_type * player)
@@ -87,7 +79,6 @@ void playerCheck(struct slot ** board, struct player_type * player, int * checke
 	player[x].distantCheck = false;
 	player[x].magicCheck = false;
 
-	puts("Set checks to false");
 	//Resetting checkerD to false
 	*checkerD = 0;
 	//int explored[BOARD_SIZE][BOARD_SIZE] = {false};
@@ -113,26 +104,22 @@ void playerCheck(struct slot ** board, struct player_type * player, int * checke
 	//Checking if a near attack is possible and assigning result to player's check.
 	player[x].nearCheck = checkNearAttack(board, player[x].row, player[x].column, x, playersFound);
 
-	printf("nearcheck done %d\n", player[x].nearCheck);
 	//checking if a distant attack is possible
 	for(int i=2;i<5;i++)
 	{
 		findSlots(i, 0,  &board[player[x].row][player[x].column], playersFound, checkerD, x);
 	}
-	printf("Find slots %d completed.\n",x);
 	//Setting distant check to true if there is another player found
 	if((*checkerD)>0)	//1 because the player always finds them-self
 	{
 		player[x].distantCheck = true;
 	}
-	puts("Distant check ran");
 
 	//Checking if player can make a magic attack
 	if((player[x].smartness + player[x].magicskills)>150)
 	{
 		player[x].magicCheck = true;
 	}
-	puts("magic check ran");
 }
 
 void playerMoveChoice(struct slot ** board, struct player_type * player, char *slotChoice, int n, int i)
@@ -162,55 +149,47 @@ void playerMoveChoice(struct slot ** board, struct player_type * player, char *s
 		{
 			case 'd':
 				if((board[player[i].row][player[i].column].down)!=NULL){
-					puts("Calling move slot");
 					printf("Original: (%d,%d)\n",player[i].row,player[i].column);
 					MoveSlot(board, player, n, player[i].row+1, player[i].column, i);
 					printf("After: (%d,%d)\n",player[i].row,player[i].column);
-					puts("Move slot called");
 					break;
 				}
 				else{
-					printf("Incorrect value entered! case u\n");
+					printf("Incorrect value entered!\n");
 					*slotChoice = -1;
 					break;
 				}
 			case 'u':
 				if((board[player[i].row][player[i].column].up)!=NULL){
-					puts("Calling move slot");
 					printf("Original: (%d,%d)\n",player[i].row,player[i].column);
 					MoveSlot(board, player, n, player[i].row-1, player[i].column, i);
 					printf("After: (%d,%d)\n",player[i].row,player[i].column);
-					puts("Move slot called");
 					break;
 				}
 				else{
-					printf("Incorrect value entered! case d\n");
+					printf("Incorrect value entered!\n");
 					*slotChoice = -1;
 					break;
 				}
 			case 'l':
 				if((board[player[i].row][player[i].column].left)!=NULL){
-					puts("Calling move slot");
 					printf("Original: (%d,%d)\n",player[i].row,player[i].column);
 					MoveSlot(board, player, n, player[i].row, player[i].column-1, i);
 					printf("After: (%d,%d)\n",player[i].row,player[i].column);
-					puts("Move slot called");
 					break;
 				}
 				else{
-					printf("Incorrect value entered! case l\n");
+					printf("Incorrect value entered!\n");
 					*slotChoice = -1;
 					break;
 				}
 			case 'r':
 				if((board[player[i].row][player[i].column].right)!=NULL){
-					puts("Calling move slot");
 					MoveSlot(board, player, n, player[i].row, player[i].column+1, i);
-					puts("Move slot called");
 					break;
 				}
 				else{
-					printf("Incorrect value entered! case r\n");
+					printf("Incorrect value entered!\n");
 					*slotChoice = -1;
 					break;
 				}

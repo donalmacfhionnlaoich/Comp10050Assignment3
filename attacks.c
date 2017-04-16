@@ -21,7 +21,7 @@ void nearAttack(struct player_type *attacker, struct player_type *attacked, stru
 		if(attacked->lifepoints<=0)
 		{
 			printf("%s, player %d, has been killed by %s, player %d, and has been removed from play.\n",attacked->name,attacked->id,attacker->name,attacker->id);
-			playerQuit(board, attacked);
+			playerQuit(board, attacked);	//player has lost all LP so quit function called and player removed
 		}
 	}
 	else if(attacked->strength > 70)	//If the attacked players strength is greater than 70 then the player who initiated the attack gets
@@ -30,7 +30,7 @@ void nearAttack(struct player_type *attacker, struct player_type *attacked, stru
 		if(attacker->lifepoints<=0)
 		{
 			printf("%s, player %d, has been killed by %s, player %d, and has been removed from play.\n",attacker->name,attacker->id,attacked->name,attacked->id);
-			playerQuit(board, attacker);
+			playerQuit(board, attacker);	//player has lost all LP so quit function called and player removed
 		}
 	}
 }
@@ -43,8 +43,8 @@ void distantAttack(struct player_type *attacker, struct player_type *attacked, s
 		if(attacked->lifepoints<=0)
 		{
 			printf("%s, player %d, has been killed by %s, player %d, and has been removed from play.\n",attacked->name,attacked->id,attacker->name,attacker->id);
-			playerQuit(board, attacked);
-		}
+			playerQuit(board, attacked);	//player has lost all LP so quit function called and player removed
+		}	
 	}
 }
 
@@ -54,6 +54,6 @@ void magicAttack(struct player_type *attacker, struct player_type *attacked, str
 	if(attacked->lifepoints<=0)
 	{
 		printf("%s, player %d, has been killed by %s, player %d, and has been removed from play.\n",attacked->name,attacked->id,attacker->name,attacker->id);
-		playerQuit(board, attacked);
+		playerQuit(board, attacked);	//player has lost all LP so quit function called and player removed
 	}
 }
