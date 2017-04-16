@@ -113,6 +113,10 @@ int main(){
 
 
 				do{
+					if(((player[i].magicCheck!=1)&&(player[i].distantCheck!=1)&&(player[i].nearCheck!=1)))
+					{
+						printf("Player %d, no other players in range!\n", i+1);
+					}
 					//Asking user for input on what action they would like to take
 					printf("Would you like to:\n");
 					//Only the options available to user are printed
@@ -145,6 +149,7 @@ int main(){
 							else
 							{
 								allowedChoice = 0;
+								puts("\nIncorrect number entered!\n");
 							}
 							break;
 						case 3:
@@ -155,6 +160,7 @@ int main(){
 							else
 							{
 								allowedChoice = 0;
+								puts("\nIncorrect number entered!\n");
 							}
 							break;
 						case 4:
@@ -165,6 +171,7 @@ int main(){
 							else
 							{
 								allowedChoice = 0;
+								puts("\nIncorrect number entered!\n");
 							}
 							break;
 					}
