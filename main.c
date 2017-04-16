@@ -346,7 +346,7 @@ int main(){
 						case 2:
 							for(k=0;k<PLAYER_MAX;k++)
 							{
-								playersFound[i]=0;
+								playersFound[k]=0;
 							}
 							checkNearAttack(board, player[i].row, player[i].column, i, playersFound);
 							for(j=0;j<n;j++)
