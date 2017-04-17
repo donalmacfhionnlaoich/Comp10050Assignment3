@@ -18,10 +18,6 @@
  * This function creates the board
  * Parameters:
  * 	size: the size of the board
- * 	upLeft: pointer of pointer to slot at position (0, 0)
- * 	upRight: pointer of pointer to slot at position (0, boardSize -1)
- * 	downLeft: pointer of pointer to slot at position (boardSsize -1, 0)
- * 	upLeft: pointer of pointer to slot at position (boardSize - 1, boardSize -1)
  */
 void createBoard(struct slot **board, int boardSize)
 {
