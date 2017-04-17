@@ -13,14 +13,21 @@
 
 void MoveSlot (struct slot ** board,struct player_type * player, const int numOfPlayers, int row, int column, int i)
 {
+	//Storing players previous position
 	int tempRow = player[i].row;
 	int tempColumn = player[i].column;
+
+	//Assigning new position to player
 	player[i].row = row;
 	player[i].column = column;
+
+	//Indicating in moved to slot that it is occupied. Adding player to presentPlayers
 	board[row][column].occupied = true;
 	board[row][column].playersPresent[player[i].id]=1;	//Indicating user is present in slot by setting the corresponding index in the array to their id = 1;
 
+	//Removing player from previous slot playersPresent
 	board[tempRow][tempColumn].playersPresent[player[i].id]=0;
+
 	int k;
 	//Checking if their are any players in the slot.
 	for(k=0;k<numOfPlayers;k++)
@@ -37,6 +44,7 @@ void MoveSlot (struct slot ** board,struct player_type * player, const int numOf
 		board[tempRow][tempColumn].occupied = false;
 	}
 
+	//Applying modifications of slot moved to to player
 	if(board[player[i].row][player[i].column].slot_type == cityType)
 	{
 		city(&player[i]);
@@ -50,6 +58,7 @@ void MoveSlot (struct slot ** board,struct player_type * player, const int numOf
 void playerQuit(struct slot ** board,struct player_type * player)
 {
 	board[player->row][player->column].playersPresent[player->id]=0;	//Removing player from current slot
+	//Int to hold number of players who've left/died
 	extern int playersOut;
 	int i;
 	//Checking if their are any players in the slot.
@@ -67,22 +76,22 @@ void playerQuit(struct slot ** board,struct player_type * player)
 		board[player->row][player->column].occupied = false;
 	}
 
+	//Setting player off the board and dead
 	player->lifepoints = 0;
 	player->row = -1;
 	player->column = -1;
-	playersOut++;
+	playersOut++;	//Incrementing number of players dead/quit
 }
 
 void playerCheck(struct slot ** board, struct player_type * player, int * checkerD, int x, int * playersFound)
 {
-	//Resetting checks of possible atatcks to false
+	//Resetting checks of possible attacks to false
 	player[x].nearCheck = false;
 	player[x].distantCheck = false;
 	player[x].magicCheck = false;
 
 	//Resetting checkerD to false
 	*checkerD = 0;
-	//int explored[BOARD_SIZE][BOARD_SIZE] = {false};
 
 	for(int k=0;k<BOARD_SIZE;k++)
 	{
@@ -91,10 +100,6 @@ void playerCheck(struct slot ** board, struct player_type * player, int * checke
 			board[k][l].explored = false;
 		}
 	}
-
-
-	//memset was causing errors
-	//memset(&explored, 0, sizeof(bool) * BOARD_SIZE*BOARD_SIZE);
 
 	//Resetting playersFOund array to 0
 	for(int i=0;i<PLAYER_MAX;i++)
@@ -125,7 +130,7 @@ void playerCheck(struct slot ** board, struct player_type * player, int * checke
 
 void playerMoveChoice(struct slot ** board, struct player_type * player, char *slotChoice, int n, int i)
 {
-	//playerMoveChoice( board, player, &slotChoice, n, i);
+	//Printing which slots the player can move to.
 	printf("What slot would you like to move to:\n");
 	if((board[player[i].row][player[i].column].up)!=NULL){
 		printf("u - for slot above\n");
@@ -139,85 +144,95 @@ void playerMoveChoice(struct slot ** board, struct player_type * player, char *s
 	if((board[player[i].row][player[i].column].right)!=NULL){
 		printf("r - for slot to the right\n?");
 	}
-	//fflush(stdin);
-	//scanf("%c", &slotChoice);
+
 	do{
+		//Prompting user for which slot they would like to  move to
 		printf("Choice: ");
 		fflush(stdin);
 		scanf(" %c", &(*slotChoice));
-		printf("Char entered is %c\n",*slotChoice);
+
 		switch(*slotChoice)
 		{
-			case 'd':
+			case 'd':	//Player wants to move down
+				//Checking if the chosen slot exists
 				if((board[player[i].row][player[i].column].down)!=NULL){
-					printf("Original: (%d,%d)\n",player[i].row,player[i].column);
+					//Moving player
 					MoveSlot(board, player, n, player[i].row+1, player[i].column, i);
-					printf("After: (%d,%d)\n",player[i].row,player[i].column);
+					printf("\n\n%s (Player %d) has moved to slot (%d,%d)\n\n",player[i].name, i+1, player[i].row, player[i].column);
 					break;
 				}
-				else{
+				else{	//If slot chosen does not exist, alert user and set slotChoice so that they get prompted to choose a different slot
 					printf("Incorrect value entered!\n");
 					*slotChoice = -1;
 					break;
 				}
-			case 'u':
+			case 'u':	//Player wants to move up
+				//Checking if the chosen slot exists
 				if((board[player[i].row][player[i].column].up)!=NULL){
-					printf("Original: (%d,%d)\n",player[i].row,player[i].column);
+					//Moving player
 					MoveSlot(board, player, n, player[i].row-1, player[i].column, i);
-					printf("After: (%d,%d)\n",player[i].row,player[i].column);
+					printf("\n\n%s (Player %d) has moved to slot (%d,%d)\n\n",player[i].name, i+1, player[i].row, player[i].column);
 					break;
 				}
-				else{
+				else{	//If slot chosen does not exist, alert user and set slotChoice so that they get prompted to choose a different slot
 					printf("Incorrect value entered!\n");
 					*slotChoice = -1;
 					break;
 				}
-			case 'l':
+			case 'l':	//Player wants to move left
+				//Checking if the chosen slot exists
 				if((board[player[i].row][player[i].column].left)!=NULL){
-					printf("Original: (%d,%d)\n",player[i].row,player[i].column);
+					//Moving player
 					MoveSlot(board, player, n, player[i].row, player[i].column-1, i);
-					printf("After: (%d,%d)\n",player[i].row,player[i].column);
+					printf("\n\n%s (Player %d) has moved to slot (%d,%d)\n\n",player[i].name, i+1, player[i].row, player[i].column);
 					break;
 				}
-				else{
+				else{	//If slot chosen does not exist, alert user and set slotChoice so that they get prompted to choose a different slot
 					printf("Incorrect value entered!\n");
 					*slotChoice = -1;
 					break;
 				}
-			case 'r':
+			case 'r':	//Player wants to move right
+				//Checking if the chosen slot exists
 				if((board[player[i].row][player[i].column].right)!=NULL){
+					//Moving player
 					MoveSlot(board, player, n, player[i].row, player[i].column+1, i);
+					printf("\n\n%s (Player %d) has moved to slot (%d,%d)\n\n",player[i].name, i+1, player[i].row, player[i].column);
 					break;
 				}
-				else{
+				else{	//If slot chosen does not exist, alert user and set slotChoice so that they get prompted to choose a different slot
 					printf("Incorrect value entered!\n");
 					*slotChoice = -1;
 					break;
 				}
-			default:
-				printf("Incorrect value entered! default\n");
+			default:	//Invalid value was entered. Alert user and set slotChoice so that they get prompted to choose a different slot
+				printf("Incorrect value entered!\n");
 				*slotChoice = -1;
 				break;
 		}
-	}while(*slotChoice == -1);
+	}while(*slotChoice == -1);	//Continues until a valid slot is chosen to move to
 }
 
+//Function to initialize player
 void playerInitialization(struct slot ** board, struct player_type * player,int i)
 {
-	unsigned int typeNum;
+	unsigned int typeNum;	//Variable to hold player type
+	//Prompting and receiving user's name
 	printf("\nEnter Player %d's name: ", i+1);
 	scanf("%19s", player[i].name);	//Ensuring the maximum of characters of name is at most 19 so that there is one space for the null terminator.
+	//Prompting and recieving player's type
 	printf("\n----------Enter Player %d's type---------\n", i+1);
 	printf("1 - Human, 2 - Ogre, 3 - Wizard, 4 - Elf:\n");
 	scanf("%u", &typeNum);		// User input for player type
+
 	while(typeNum < 1 || typeNum > 4)
-	{	// Loops while entered digit is not 1-4
+	{	// Loops while entered digit is not a valid type
 		puts("Sorry but you must enter a number between 1 & 4:\n");
 		scanf("%u", &typeNum);
 	}
 	player[i].lifepoints = 100.0;		// Sets everybody's LP's too 100.0 as stated
 										// Must be floating point for attack calculations
-	player[i].id = i;
+	player[i].id = i;	//Setting player's ID
 	/* Switch that copies player's type and respective capabilities to each struct member */
 	switch(typeNum - 1)
 	{

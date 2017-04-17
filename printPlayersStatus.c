@@ -6,7 +6,6 @@
  */
 
 #include "crossfireOperations.h"
-//#include "Prototypes.h"
 #include "structs.h"	//Including definition of structs
 #include <stdio.h>		//Including stdio library for printf function.
 

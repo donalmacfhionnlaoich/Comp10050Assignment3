@@ -207,7 +207,7 @@ void crossFire(struct slot **board, struct player_type * player, int n, int play
 						playerQuit(board, &player[i]);
 						break;
 				}
-				if(n-1<=playersOut)
+				if(n-1<=playersOut)	//If 1 player remains, break;
 				{
 					break;
 				}
@@ -217,8 +217,8 @@ void crossFire(struct slot **board, struct player_type * player, int n, int play
 				playerRound--; //Decrementing playerRound number so that correct number is displayed
 			}
 		}
-		roundNum++;
-	}while(n-1>playersOut);
+		roundNum++;	//Increment round number.
+	}while(n-1>playersOut);	//Continue until 1 player or less remains
 
 	if(n>playersOut)
 	{

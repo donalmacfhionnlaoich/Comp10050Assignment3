@@ -8,7 +8,7 @@
 
 #include <stdio.h>
 #include "crossfireOperations.h"
-#include "structs.h"	//Including the definition of the structs.
+#include "structs.h"	//Including the definition of the structs and playerQuit prototype.
 
 void playerQuit(struct slot ** board,struct player_type * player);
 
@@ -35,6 +35,7 @@ void nearAttack(struct player_type *attacker, struct player_type *attacked, stru
 	}
 }
 
+//Function to execute a distantAttack
 void distantAttack(struct player_type *attacker, struct player_type *attacked, struct slot ** board)
 {
 	float x = attacker->strength;
@@ -49,6 +50,7 @@ void distantAttack(struct player_type *attacker, struct player_type *attacked, s
 	}
 }
 
+//Function to execute a magicAttack
 void magicAttack(struct player_type *attacker, struct player_type *attacked, struct slot ** board)
 {
 	attacked->lifepoints -= (0.5 * attacker->magicskills)+(0.2 * attacker->smartness);

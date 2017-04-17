@@ -35,8 +35,10 @@ void playerQuit(struct slot ** board,struct player_type * player);
 /* FUNCTION TO CHECK POSSIBILITIES FOR NEAR, DISTANT & MAGIC ATTACKS  */
 void playerCheck(struct slot ** board, struct player_type * player, int * checkerD, int x, int * playersFound);
 
+//Function to initialize players
 void playerInitialization(struct slot ** board, struct player_type * player,int i);
 
+//Function which executes the rounds of the game until 1 player remains
 void crossFire(struct slot **board, struct player_type * player, int n, int playersOut);
 
 #endif /* PROTOTYPES_H_ */

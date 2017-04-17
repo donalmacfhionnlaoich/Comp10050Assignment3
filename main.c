@@ -21,17 +21,6 @@ int main(){
 	setbuf(stdout,NULL);	//Fix error with eclipse on Windows.
 	srand(time(NULL));		// Seed time to rand() function for use in slot and player assign
 
-	//pointer to slot (0,0)
-	struct slot *upLeft;
-
-	//pointer to slot (0,boardSize -1)
-	struct slot *upRight;
-
-	//pointer to slot (boardSize - 1, 0)
-	struct slot *downLeft;
-
-	//pointer to slot (boardSize - 1, boardSize -1)
-	struct slot *downRight;
 	// Dynamically allocate memory for slots and initialize to ZERO/NULL
 	struct slot ** board = calloc(BOARD_SIZE, sizeof(struct slot *));
 
@@ -43,7 +32,7 @@ int main(){
 	}
 
 	//Creates the board
-	createBoard(board,BOARD_SIZE,&upLeft, &upRight, &downLeft, &downRight);
+	createBoard(board, BOARD_SIZE);
 
 	//Stores the number of players in the game
 	unsigned int n;
