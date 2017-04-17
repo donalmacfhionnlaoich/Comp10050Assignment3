@@ -9,8 +9,9 @@
 #include "structs.h"	//Including the definitions of structs.
 #include <stdlib.h>		//Including prototypes of functions.
 
-void city(struct player_type player);
-void hill(struct player_type player);
+//Prototypes for city and hill
+//void city(struct player_type player);
+//void hill(struct player_type player);
 
 //Function to assign attributes of human player type to player.
 void human(struct player_type *player, struct slot **board){
@@ -29,19 +30,10 @@ void human(struct player_type *player, struct slot **board){
 	player->magicskills = attrib[2];		//Assigning value of attribute 2 to player's magic skills
 	player->luck = attrib[3];				//Assigning value of attribute 3 to player's luck.
 	player->dexterity = attrib[4];			//Assigning value of attribute 4 to player's dexterity.
-	player->row = rand() % BOARD_SIZE;
-	player->column = rand() % BOARD_SIZE;
-	board[player->row][player->column].occupied = true;
-	board[player->row][player->column].playersPresent[player->id]=1;
-
-	if(board[player->row][player->column].slot_type == cityType)
-	{
-		city(*player);
-	}
-	else if(board[player->row][player->column].slot_type == hillType)
-	{
-		hill(*player);
-	}
+	player->row = rand() % BOARD_SIZE;		//Assigning random row value between 0 and BOARD_SIZE inclusive
+	player->column = rand() % BOARD_SIZE;	//Assigning random column value between 0 and BOARD_SIZE inclusive
+	board[player->row][player->column].occupied = true;					//Altering board slot in which the player is to indicate that it is occupied
+	board[player->row][player->column].playersPresent[player->id]=1;	//Altering playersPresnt array of the slot to indicate that this player is present
 }
 
 //Function to assign attributes of ogre player type to player.
@@ -61,10 +53,10 @@ void ogre(struct player_type *player, struct slot **board){
 	player->strength = rand() % 21 + 80;	//Value 80-100 inclusive is assigned to strength of player.
 	player->dexterity = rand() % 21 + 80;	//Value 80-100 inclusive is assigned to dexterity of player.
 	player->magicskills = 0;				//Magic skills of player set to 0.
-	player->row = rand() % BOARD_SIZE;
-	player->column = rand() % BOARD_SIZE;
-	board[player->row][player->column].occupied = true;
-	board[player->row][player->column].playersPresent[player->id]=1;
+	player->row = rand() % BOARD_SIZE;		//Assigning random row value between 0 and BOARD_SIZE inclusive
+	player->column = rand() % BOARD_SIZE;	//Assigning random column value between 0 and BOARD_SIZE inclusive
+	board[player->row][player->column].occupied = true;					//Altering board slot in which the player is to indicate that it is occupied
+	board[player->row][player->column].playersPresent[player->id]=1;	//Altering playersPresnt array of the slot to indicate that this player is present
 }
 
 //Function to assign attributes of wizard player type to player.
@@ -75,10 +67,10 @@ void wizard(struct player_type *player, struct slot **board){
 	player->strength = rand() % 20 + 1;		//Value 1-20 inclusive assigned to player's strength.
 	player->dexterity = rand() % 100 + 1;	//Value 1-100 inclusive assigned to player's dexterity.
 	player->magicskills = rand() % 21 + 80;	//Value 80-100 inclusive assigned to player's magic skills.
-	player->row = rand() % BOARD_SIZE;
-	player->column = rand() % BOARD_SIZE;
-	board[player->row][player->column].occupied = true;
-	board[player->row][player->column].playersPresent[player->id]=1;
+	player->row = rand() % BOARD_SIZE;		//Assigning random row value between 0 and BOARD_SIZE inclusive
+	player->column = rand() % BOARD_SIZE;	//Assigning random column value between 0 and BOARD_SIZE inclusive
+	board[player->row][player->column].occupied = true;					//Altering board slot in which the player is to indicate that it is occupied
+	board[player->row][player->column].playersPresent[player->id]=1;	//Altering playersPresnt array of the slot to indicate that this player is present
 }
 
 //Function to assign attributes of wizard player type to player.
@@ -89,8 +81,8 @@ void elf(struct player_type *player, struct slot **board){
 	player->strength = rand() % 50 + 1;		//Value 1-50 inclusive assigned to player's strength.
 	player->dexterity = rand() % 100 + 1;	//Value 1-100 inclusive assigned to player's dexterity.
 	player->magicskills = rand() % 29 + 51;	//Value 50-80 non-inclusive assigned to player's magic skills.
-	player->row = rand() % BOARD_SIZE;
-	player->column = rand() % BOARD_SIZE;
-	board[player->row][player->column].occupied = true;
-	board[player->row][player->column].playersPresent[player->id]=1;
+	player->row = rand() % BOARD_SIZE;		//Assigning random row value between 0 and BOARD_SIZE inclusive
+	player->column = rand() % BOARD_SIZE;	//Assigning random column value between 0 and BOARD_SIZE inclusive
+	board[player->row][player->column].occupied = true;					//Altering board slot in which the player is to indicate that it is occupied
+	board[player->row][player->column].playersPresent[player->id]=1;	//Altering playersPresnt array of the slot to indicate that this player is present
 }

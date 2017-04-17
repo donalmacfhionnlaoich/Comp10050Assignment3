@@ -27,8 +27,8 @@ void printPlayersStatus(struct player_type *player, int n, struct slot ** board)
 			printf("Luck:\t\t%d\n", player[i].luck);				//Printing the value of the luck of the slected player.
 			printf("Dexterity:\t%d\n", player[i].dexterity);		//Printing the value of the dexterity of the slected player.
 			printf("Slot Name:\t%s\n", board[player[i].row][player[i].column].slot_name);		//Printing the slot type of the player.
-			printf("Player ID:\t%d\n",player[i].id);
-			printf("Position:\t (%d,%d)\n",player[i].row,player[i].column);
+			printf("Player ID:\t%d\n",player[i].id);				//Prints ID of player
+			printf("Position:\t (%d,%d)\n",player[i].row,player[i].column);	//Prints players position on the board
 		}
 	}
 }

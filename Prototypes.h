@@ -22,8 +22,8 @@ void distantAttack(struct player_type *attacker, struct player_type *attacked, s
 void magicAttack(struct player_type *attacker, struct player_type *attacked, struct slot ** board);
 
 /* SLOT ASSIGN FUNCTIONS */
-void city(struct player_type player);
-void hill(struct player_type player);
+void city(struct player_type * player);
+void hill(struct player_type * player);
 
 /* CHOICE CHECK FOR POSSIBLE MOVEMENTS AND MOVE EXECTION FUNCTIONS */
 void playerMoveChoice(struct slot ** board, struct player_type * player, char *slotChoice, int n, int i);

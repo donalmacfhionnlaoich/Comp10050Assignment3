@@ -39,11 +39,11 @@ void MoveSlot (struct slot ** board,struct player_type * player, const int numOf
 
 	if(board[player[i].row][player[i].column].slot_type == cityType)
 	{
-		city(player[i]);
+		city(&player[i]);
 	}
 	else if(board[player[i].row][player[i].column].slot_type == hillType)
 	{
-		hill(player[i]);
+		hill(&player[i]);
 	}
 }
 
@@ -237,5 +237,15 @@ void playerInitialization(struct slot ** board, struct player_type * player,int 
 			strcpy(player[i].type, "Elf");
 			elf(&player[i], board);		// Wizard function (see playerTypes.c)
 			break;
+	}
+
+	//If the slot the player is in is either a hill or city slot, modify their abilities accordingly
+	if(board[player[i].row][player[i].column].slot_type == cityType)
+	{
+		city(&player[i]);
+	}
+	else if(board[player[i].row][player[i].column].slot_type == hillType)
+	{
+		hill(&player[i]);
 	}
 }

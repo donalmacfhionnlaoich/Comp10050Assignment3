@@ -60,13 +60,6 @@ struct slot{
  * manage the interaction with the users
  */
 
-//Asks the user to provide as input the size of the board
-//Returns the size of the board
-int getBoardSize();
-
-//Asks the user to insert the row and the column of the element
-//she wants to find given a board of size equal to maxsize
-void getDesiredElement(int maxsize, int * row, int * col);
 
 /*
  * Functions createBoard and reachDesiredElement

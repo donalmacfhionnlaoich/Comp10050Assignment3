@@ -10,7 +10,6 @@
 #include "structs.h"
 #include "Prototypes.h"
 #include <stdio.h>
-#include <string.h>
  
 void crossFire(struct slot **board, struct player_type * player, int n, int playersOut){
 

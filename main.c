@@ -45,6 +45,9 @@ int main(){
 	//Creates the board
 	createBoard(board,BOARD_SIZE,&upLeft, &upRight, &downLeft, &downRight);
 
+	//Stores the number of players in the game
+	unsigned int n;
+
 	//Instructing user and getting input.
 	printf("\nThere can be 2-%d players in the game.\n", PLAYER_MAX);
 	printf("How many players are there: ");
