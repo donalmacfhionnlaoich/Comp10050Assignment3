@@ -14,8 +14,6 @@
 #include "structs.h"
 #include "Prototypes.h"
 
-int playersOut;
-
 int main(){
 
 	setbuf(stdout,NULL);	//Fix error with eclipse on Windows.
@@ -62,7 +60,10 @@ int main(){
 		playerInitialization(board, player, i);
 	}
 	/* MAIN GAME FUNCTION */
-	crossFire(board, player, n, playersOut);
+	crossFire(board, player, n);
 	
+	free(player);
+	free(board);
+
 	return 0;
 }

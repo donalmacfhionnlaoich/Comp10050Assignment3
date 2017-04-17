@@ -11,7 +11,9 @@
 #include "Prototypes.h"
 #include <stdio.h>
  
-void crossFire(struct slot **board, struct player_type * player, int n, int playersOut){
+int playersOut;
+
+void crossFire(struct slot **board, struct player_type * player, int n){
 
 //Global int to hold the number players who've been put out of the game by quiting/dying
 	playersOut = 0;
