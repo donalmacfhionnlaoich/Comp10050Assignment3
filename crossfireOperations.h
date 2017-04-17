@@ -56,15 +56,7 @@ struct slot{
  */
 
 /*
- * Functions getBoardSize and getDesiredElement
- * manage the interaction with the users
- */
-
-
-/*
- * Functions createBoard and reachDesiredElement
- * manage the creation and manipulation of the board
- */
+ * Functions createBoard manages the creation of the board */
 /*
  * This function creates the board
  * Parameters:
@@ -90,9 +82,18 @@ void createBoard(struct slot **board, int boardSize, struct slot **upLeft, struc
  */
 void findSlots(int reqDist, int currDist,  struct slot * currSlot, int * playersFound, int *checker, int x);
 
+/* Function which takes a single slot & player checks if it is occupied by 
+	someone other than the player and if so returns true 
+ *	x: index of player 
+ * 	playerFound[]: array used to store ID of found players by setting that element to 1 i.e. [ID Of Found Player] = 1 
+ * 	board: pointer to board structs
+ * 	row: row number in board[row][column] to be checked for occupant
+ *	column: column number in board[row][column] to be checked for occupant
+ */
 int checkSlot(int row, int column, struct slot ** board, int x, int * playersFound);
 
+/* This function calls the function checkSlot for each adjacent slot (provided they exist) 
+ and returns true if any are occupied by another player */
 int checkNearAttack(struct slot ** board, int row, int column, int x, int * playersFound);
 
 
-//void playerMoveChoice(struct slot ** board, struct player_type **player, char *slotChoice, int n, int i);
