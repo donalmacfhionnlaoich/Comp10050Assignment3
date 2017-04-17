@@ -13,7 +13,6 @@
 #endif /* CROSSFIREOPERATIONS_H_ */
 
 #define BOARD_SIZE 7
-#define REQ_DISTANCE 3
 #define PLAYER_MAX 6
 
 enum playerType {humanType, ogreType, wizardType, elfType};
